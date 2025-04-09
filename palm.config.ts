@@ -12,6 +12,6 @@ const config = definePalmConfig({
   },
 });
 
-export type Account = z.infer<typeof config.schema.account>;
+// export type Account = z.infer<typeof config.schema.account>;
 
 export default config;

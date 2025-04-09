@@ -1,47 +1,37 @@
 import { Coconut } from "@/core/coconut";
 import type { OperationCost } from "./operation-cost";
+import type { ZodObject, ZodRawShape } from "zod";
 
 export interface CollectionInterface<CollectionType> {
   items: Record<string, CollectionType>;
   coconut: Coconut;
+  schema: ZodObject<ZodRawShape>;
+  save: () => Promise<void>;
 
-  create(data: CollectionType): Promise<OperationCost<string>>;
+  create(data: CollectionType): Promise<string>;
 
   update(
     where: string,
     data: Partial<CollectionType>
-  ): Promise<OperationCost<CollectionType>>;
+  ): Promise<CollectionType>;
   update(
     where: string,
     data: (target: CollectionType) => CollectionType
-  ): Promise<OperationCost<CollectionType>>;
+  ): Promise<CollectionType>;
   update(
-    where: (target: CollectionType) => boolean,
+    where: (id: string, target: CollectionType) => boolean,
     data: Partial<CollectionType>
   ): Promise<OperationCost<Array<CollectionType>>>;
   update(
-    where: (target: CollectionType) => boolean,
+    where: (id: string, target: CollectionType) => boolean,
     data: (target: CollectionType) => CollectionType
   ): Promise<OperationCost<Array<CollectionType>>>;
 
-  read(where: string): Promise<CollectionType>;
-  read(where: (target: CollectionType) => boolean): Promise<CollectionType>;
+  // read(where: string): Promise<CollectionType>;
+  // read(where: (target: CollectionType) => boolean): Promise<CollectionType>;
 
-  safeRead(where: string): Promise<CollectionType | null>;
-  safeRead(
-    where: (target: CollectionType) => boolean
-  ): Promise<CollectionType | null>;
-
-  delete(where: string): Promise<OperationCost<CollectionType>>;
-  delete(
-    where: (target: CollectionType) => boolean
-  ): Promise<OperationCost<CollectionType>>;
-
-  safeDelete(where: string): Promise<OperationCost<CollectionType | null>>;
-  safeDelete(
-    where: (target: CollectionType) => boolean
-  ): Promise<OperationCost<CollectionType | null>>;
-
-  // exportDatabase(): void;
-  // importDatabase(): void;
+  // delete(where: string): Promise<CollectionType>;
+  // delete(
+  //   where: (target: CollectionType) => boolean
+  // ): Promise<OperationCost<CollectionType>>;
 }
