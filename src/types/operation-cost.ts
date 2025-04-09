@@ -1,5 +1,5 @@
 export interface OperationCost<Target> {
-  affectedItems: number;
+  affectedItems?: number;
   timing: number;
   data: Target;
 }

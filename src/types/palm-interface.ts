@@ -8,6 +8,7 @@ export interface PalmInterface<
   Values extends Record<string, ZodObject<ZodRawShape>>
 > {
   config: PalmConfig<Keys, Values>;
+  coconut: Coconut;
 
   database: {
     export: null;
@@ -18,4 +19,6 @@ export interface PalmInterface<
   migrate: null;
 
   select(target: Keys): CollectionInterface<Values[Keys]>;
+  
+  fs: null;
 }

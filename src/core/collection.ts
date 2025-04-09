@@ -1,7 +1,7 @@
 import type { CollectionInterface } from "@/types/collection-interface";
 import type { Coconut } from "./coconut";
 import { randomUUID } from "node:crypto";
-import { z, ZodObject, ZodRawShape } from "zod";
+import { ZodObject, ZodRawShape } from "zod";
 import type { OperationCost } from "@/types/operation-cost";
 
 export class Collection<CollectionType>
@@ -43,11 +43,11 @@ export class Collection<CollectionType>
   update(
     where: (id: string, target: CollectionType) => boolean,
     data: Partial<CollectionType>
-  ): Promise<OperationCost<Array<CollectionType>>>;
+  ): Promise<Required<OperationCost<Array<CollectionType>>>>;
   update(
     where: (id: string, target: CollectionType) => boolean,
     data: (target: CollectionType) => CollectionType
-  ): Promise<OperationCost<Array<CollectionType>>>;
+  ): Promise<Required<OperationCost<Array<CollectionType>>>>;
   async update(
     where: string | ((id: string, target: CollectionType) => boolean),
     data: Partial<CollectionType> | ((target: CollectionType) => CollectionType)
@@ -114,4 +114,71 @@ export class Collection<CollectionType>
     await this.coconut.release();
     throw new Error();
   }
+
+  read(where: string): Promise<CollectionType>;
+  read(
+    where: (target: CollectionType) => boolean
+  ): Promise<Omit<OperationCost<Array<CollectionType>>, "affectedItems">>;
+  async read(where: string | ((target: CollectionType) => boolean)) {
+    await this.coconut.letMeKnowWhenAvailable();
+    const initialTime = Date.now();
+
+    if (typeof where === "string") {
+      await this.coconut.release();
+
+      if (!(where in this.items)) throw new Error();
+
+      return this.items[where];
+    } else if (typeof where === "function") {
+      const target = Object.entries(this.items)
+        .filter(([_, value]) => where(value))
+        .map(([_, value]) => value);
+
+      return {
+        timing: Date.now() - initialTime,
+        data: target,
+      };
+    }
+
+    await this.coconut.release();
+    throw new Error();
+  }
+
+  delete(where: string): Promise<CollectionType>;
+  delete(
+    where: (target: CollectionType) => boolean
+  ): Promise<OperationCost<CollectionType>>;
+  async delete(where: string | ((target: CollectionType) => boolean)) {
+    await this.coconut.letMeKnowWhenAvailable();
+    const initialTime = Date.now();
+
+    if (typeof where === "string") {
+      if (!(where in this.items)) throw new Error();
+
+      const target = this.items[where];
+      delete this.items[where];
+      await this.coconut.release();
+      return target;
+    } else if (typeof where === "function") {
+      const target = Object.entries(this.items).filter(([_, value]) =>
+        where(value)
+      );
+
+      target.forEach(([key]) => {
+        delete this.items[key];
+      });
+
+      await this.coconut.release();
+      return {
+        affectedItems: target.length,
+        timing: Date.now() - initialTime,
+        data: target,
+      } as OperationCost<CollectionType>;
+    }
+
+    await this.coconut.release();
+    throw new Error();
+  }
 }
+
+// TODO: Adicionar em cada objeto, uma propriedade de _id, _createdAt e _updatedAt
