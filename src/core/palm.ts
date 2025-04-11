@@ -1,25 +1,28 @@
-import type { CollectionInterface } from "@/types/collection-interface";
-import type { PalmInterface } from "@/types/palm-interface";
-import palmConfig from "~/palm.config";
+import type { PalmInterface, CollectionInterface } from "@/core/types";
 import { Coconut } from "./coconut";
 import type { ZodObject, ZodRawShape } from "zod";
+import type { PalmConfig } from "@/types";
 
-type PalmSchemaKeys = keyof typeof palmConfig.schema;
-type PalmSchemaValues = Record<PalmSchemaKeys, ZodObject<ZodRawShape>>;
+export class Palm<
+	Keys extends string,
+	Schemas extends Record<string, ZodObject<ZodRawShape>>,
+> implements PalmInterface<Keys, Schemas>
+{
+	coconut = new Coconut();
 
-export class Palm implements PalmInterface<PalmSchemaKeys, PalmSchemaValues> {
-  config = palmConfig;
-  coconut = new Coconut();
+	constructor(
+		public config: PalmConfig<Keys, Schemas>,
+		public provider: "node" | "bun" = "node",
+	) {}
 
-  database: { export: null; import: null } = { export: null, import: null };
-  init = null;
-  migrate = null;
+	database = { export: null, import: null };
+	migrate = null;
 
-  select(
-    target: PalmSchemaKeys
-  ): CollectionInterface<PalmSchemaValues[PalmSchemaKeys]> {
-    throw new Error("Method not implemented.");
-  }
+	pick<TargetKeys extends keyof typeof this.config.schema>(
+		target: TargetKeys,
+	): CollectionInterface<Schemas[TargetKeys]> {
+		throw new Error("Method not implemented.");
+	}
 
-  fs = null;
+	fs = null;
 }

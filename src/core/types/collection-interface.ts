@@ -1,5 +1,5 @@
-import { Coconut } from "@/core/coconut";
-import type { OperationCost } from "./operation-cost";
+import type { Coconut } from "@/core";
+import type { OperationCost } from "@/types";
 import type { ZodObject, ZodRawShape } from "zod";
 
 export interface CollectionInterface<CollectionType> {
