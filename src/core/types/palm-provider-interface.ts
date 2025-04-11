@@ -7,4 +7,5 @@ export interface PalmProviderInterface<
 	items: Values;
 	get(): Promise<Values[Keys]>;
 	save(data: Record<string, unknown>): Promise<void>;
+	randomUUID(): string;
 }

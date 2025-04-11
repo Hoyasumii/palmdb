@@ -11,9 +11,6 @@ importers:
       zod:
         specifier: ^3.24.2
         version: 3.24.2
-      zodex:
-        specifier: ^0.18.2
-        version: 0.18.2(zod@3.24.2)
     devDependencies:
       '@biomejs/biome':
         specifier: 1.9.4
@@ -269,10 +266,6 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  type-fest@4.39.1:
-    resolution: {integrity: sha512-uW9qzd66uyHYxwyVBYiwS4Oi0qZyUqwjU+Oevr6ZogYiXt99EOYtwvzMSLw1c3lYo2HzJsep/NB23iEVEgjG/w==}
-    engines: {node: '>=16'}
-
   typescript@5.8.3:
     resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
     engines: {node: '>=14.17'}
@@ -283,11 +276,6 @@ packages:
 
   zod@3.24.2:
     resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
-
-  zodex@0.18.2:
-    resolution: {integrity: sha512-GE0/S68lJhhBhJWeOSvq4BCigrguOeKFr7h3sbsMPd6kF4ZCHeVU/hOzNLHlj6d+ezNXcpQ4nHj6purY5RxQBg==}
-    peerDependencies:
-      zod: ^3.x
 
 snapshots:
 
@@ -462,15 +450,8 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  type-fest@4.39.1: {}
-
   typescript@5.8.3: {}
 
   undici-types@6.21.0: {}
 
   zod@3.24.2: {}
-
-  zodex@0.18.2(zod@3.24.2):
-    dependencies:
-      type-fest: 4.39.1
-      zod: 3.24.2
