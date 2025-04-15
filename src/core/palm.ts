@@ -16,7 +16,6 @@ export class Palm<
 	) {}
 
 	database = { export: null, import: null };
-	migrate = null;
 
 	pick<TargetKeys extends keyof typeof this.config.schema>(
 		target: TargetKeys,

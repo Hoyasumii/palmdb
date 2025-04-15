@@ -8,4 +8,7 @@ export interface PalmProviderInterface<
 	get(): Promise<Values[Keys]>;
 	save(data: Record<string, unknown>): Promise<void>;
 	randomUUID(): string;
+	createFile(path: string, content: Buffer | Blob): Promise<string>;
+	getFile(path: string): Promise<Buffer | Blob>;
+	removeFile(path: string): Promise<boolean>;
 }
