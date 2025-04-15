@@ -1,19 +1,20 @@
-import type { ProviderInterface } from "@/core/providers/types";
-import { join } from "node:path";
-import { cwd } from "node:process";
-import { FileProvider } from "./file-provider";
+import type {
+	FileProviderInterface,
+	ProviderInterface,
+} from "@/core/providers/types";
 import { randomUUID } from "node:crypto";
 
 export class Provider implements ProviderInterface {
-	public _basePath: string;
-	public file: FileProvider;
+	constructor(
+		public basePath: string,
+		public fileService: FileProviderInterface,
+	) {}
 
-	constructor(basePath: string) {
-		this._basePath = join(cwd(), basePath);
-		this.file = new FileProvider(this._basePath);
+	async get(path: string) {
+		
 	}
 
-  // async save
+	// async save
 
 	randomUUID(): string {
 		return randomUUID();

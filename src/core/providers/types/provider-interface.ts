@@ -1,10 +1,10 @@
 import type { FileProviderInterface } from "./file-provider-interface";
 
 export interface ProviderInterface {
-	_basePath: string;
+	basePath: string;
+	fileService: FileProviderInterface;
 	randomUUID(): string;
 
 	get(path: string): Promise<string>;
-	save(data: Record<string, unknown>): Promise<void>;
-	file: FileProviderInterface;
+	// save(data: Record<string, unknown>): Promise<void>;
 }

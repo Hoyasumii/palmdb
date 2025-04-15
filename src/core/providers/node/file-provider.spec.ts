@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it, test } from "vitest";
 import { FileProvider } from "./file-provider";
 import { cwd } from "node:process";
 import { join } from "node:path";
@@ -17,8 +17,12 @@ describe("Testing Node.js File Provider", () => {
 		);
 	});
 
-	it("shoult read a File", async () => {
+	it("should read a File", async () => {
 		await expect(sut.read("doc.txt")).resolves.toBe("Hello World");
+	});
+
+	it("shouldn't read an inexistent File", async () => {
+		await expect(sut.read("doc2.txt")).rejects.toBeInstanceOf(Error);
 	});
 
 	it("should check if the file exists", async () => {
@@ -35,5 +39,25 @@ describe("Testing Node.js File Provider", () => {
 
 	it("should remove a file", async () => {
 		await expect(sut.remove("doc.txt")).resolves.toBe(join(currDir, "doc.txt"));
+	});
+
+	it("shouldn't remove an inexistent file", async () => {
+		await expect(sut.remove("doc.txt")).rejects.toBeInstanceOf(Error);
+	});
+
+	it("should make a new directory", async () => {
+		await expect(sut.mkDir("testing")).resolves.toBe(join(currDir, "testing"));
+	});
+
+	it("should't make an existent directory", async () => {
+		await expect(sut.mkDir("testing")).rejects.toBeInstanceOf(Error);
+	});
+
+	it("should remove a directory", async () => {
+		await expect(sut.rmDir("testing")).resolves.toBe(join(currDir, "testing"));
+	});
+
+	it("shouldn't remove an inexistent directory", async () => {
+		await expect(sut.rmDir("testing")).rejects.toBeInstanceOf(Error);
 	});
 });

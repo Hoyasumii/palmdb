@@ -6,4 +6,6 @@ export interface FileProviderInterface {
 	remove(path: string): Promise<string>;
 	exists(path: string): Promise<boolean>;
 	isFileOrDir(path: string): Promise<"file" | "dir" | false>;
+	mkDir(path: string): Promise<string>;
+	rmDir(path: string): Promise<string>;
 }

@@ -1,6 +1,6 @@
 import type { FileProviderInterface } from "@/core/providers/types";
 import { existsSync } from "node:fs";
-import { readFile, rm, stat, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rm, rmdir, stat, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
 export class FileProvider implements FileProviderInterface {
@@ -44,5 +44,21 @@ export class FileProvider implements FileProviderInterface {
 		if (dataStats.isFile()) return "file";
 		if (dataStats.isDirectory()) return "dir";
 		return false;
+	}
+
+	async mkDir(path: string): Promise<string> {
+		const newPath = join(this._basePath, path);
+
+		await mkdir(newPath);
+
+		return newPath;
+	}
+
+	async rmDir(path: string): Promise<string> {
+		const newPath = join(this._basePath, path);
+
+		await rmdir(newPath);
+
+		return newPath;
 	}
 }
