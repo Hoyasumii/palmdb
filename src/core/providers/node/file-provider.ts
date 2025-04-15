@@ -1,16 +1,12 @@
 import type { FileProviderInterface } from "@/core/providers/types";
 import { existsSync } from "node:fs";
-import { readFile, rm, writeFile } from "node:fs/promises";
+import { readFile, rm, stat, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { cwd } from "node:process";
 
 export class FileProvider implements FileProviderInterface {
 	constructor(public _basePath: string) {}
-  
-	// TODO: Verificar se os arquivos existem.
-	// TODO: Verificar se o path é arquivo ou pasta.
 
-	async create(path: string, content: Buffer): Promise<string> {
+	async write(path: string, content: string): Promise<string> {
 		const newPath = join(this._basePath, path);
 
 		await writeFile(newPath, content);
@@ -18,7 +14,7 @@ export class FileProvider implements FileProviderInterface {
 		return newPath;
 	}
 
-	async get(path: string): Promise<string> {
+	async read(path: string): Promise<string> {
 		const newPath = join(this._basePath, path);
 
 		return await readFile(newPath, {
@@ -26,13 +22,27 @@ export class FileProvider implements FileProviderInterface {
 		});
 	}
 
-	async remove(path: string): Promise<boolean> {
+	async remove(path: string): Promise<string> {
 		const newPath = join(this._basePath, path);
-
-		const existFile = existsSync(newPath);
 
 		await rm(newPath);
 
-		return existFile;
+		return newPath;
+	}
+
+	async exists(path: string): Promise<boolean> {
+		const newPath = join(this._basePath, path);
+
+		return existsSync(newPath);
+	}
+
+	async isFileOrDir(path: string): Promise<"file" | "dir" | false> {
+		const newPath = join(this._basePath, path);
+
+		const dataStats = await stat(newPath);
+
+		if (dataStats.isFile()) return "file";
+		if (dataStats.isDirectory()) return "dir";
+		return false;
 	}
 }

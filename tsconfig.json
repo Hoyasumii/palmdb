@@ -1,22 +1,21 @@
 {
-  "compilerOptions": {
-    "target": "es2022",
-    "module": "es2022",
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["./src/*"],
-      "~/*": ["./*"]
-    },
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "outDir": "dist",
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": false,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "removeComments": false,
-    
-  }
+	"compilerOptions": {
+		"target": "es2022",
+		"module": "es2022",
+		"baseUrl": "./",
+		"paths": {
+			"@/*": ["./src/*"],
+			"~/*": ["./*"]
+		},
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"skipLibCheck": true,
+		"outDir": "dist",
+		"declaration": true,
+		"declarationMap": true,
+		"emitDeclarationOnly": false,
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+		"removeComments": false
+	}
 }

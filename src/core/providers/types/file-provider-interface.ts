@@ -1,7 +1,9 @@
 export interface FileProviderInterface {
 	_basePath: string;
 
-	create(path: string, content: Buffer | Blob): Promise<string>;
-	get(path: string): Promise<string>;
-	remove(path: string): Promise<boolean>;
+	write(path: string, content: string): Promise<string>;
+	read(path: string): Promise<string>;
+	remove(path: string): Promise<string>;
+	exists(path: string): Promise<boolean>;
+	isFileOrDir(path: string): Promise<"file" | "dir" | false>;
 }
