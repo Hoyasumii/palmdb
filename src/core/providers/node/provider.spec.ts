@@ -1,7 +1,6 @@
 import { describe, it, expect, beforeAll } from "vitest";
 import { Provider } from "./provider";
 import { cwd } from "node:process";
-// import { randomUUIDv7 } from "bun";
 import { z } from "zod";
 
 describe("Testing Node.js Provider", () => {
@@ -16,13 +15,13 @@ describe("Testing Node.js Provider", () => {
 		await expect(sut.save("testing.txt", "hello world")).resolves.toBeDefined();
 	});
 
-	it.todo("should get a file content");
+	it("should get a file content", async () => {
+		await expect(sut.get("testing.txt")).resolves.toBeDefined();
+	});
 
 	it("should get a randomUUID", () => {
 		const uuidSchema = z.string().uuid();
 		const targetUUID = sut.randomUUID();
-
-    console.log(Bun.randomUUIDv7());
 
 		expect(uuidSchema.safeParse(targetUUID).success).toBeTruthy();
 	});

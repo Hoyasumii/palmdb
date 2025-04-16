@@ -2,6 +2,8 @@ import type { PalmInterface, CollectionInterface } from "@/core/types";
 import { Coconut } from "./coconut";
 import type { ZodObject, ZodRawShape } from "zod";
 import type { PalmConfig } from "@/types";
+import type { ProviderInterface } from "@/core/providers/types";
+import nodeProvider from "./providers/node";
 
 export class Palm<
 	Keys extends string,
@@ -9,11 +11,16 @@ export class Palm<
 > implements PalmInterface<Keys, Schemas>
 {
 	coconut = new Coconut();
+	public provider: ProviderInterface;
 
 	constructor(
 		public config: PalmConfig<Keys, Schemas>,
-		public provider: "node" | "bun" = "node",
-	) {}
+		public providerType: "node" | "bun" = "node",
+	) {
+		if (providerType === "bun") throw new Error();
+
+		this.provider = nodeProvider;
+	}
 
 	database = { export: null, import: null };
 
@@ -22,6 +29,4 @@ export class Palm<
 	): CollectionInterface<Schemas[TargetKeys]> {
 		throw new Error("Method not implemented.");
 	}
-
-	fs = null;
 }

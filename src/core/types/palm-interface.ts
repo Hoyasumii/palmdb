@@ -2,13 +2,16 @@ import type { ZodObject, ZodRawShape } from "zod";
 import type { PalmConfig } from "@/types";
 import type { CollectionInterface } from "./collection-interface";
 import type { Coconut } from "@/core/coconut";
+import type { ProviderInterface } from "@/core/providers/types";
 
 export interface PalmInterface<
 	Keys extends string,
 	Values extends Record<Keys, ZodObject<ZodRawShape>>,
 > {
 	config: PalmConfig<Keys, Values>;
-	provider?: "node" | "bun";
+	provider: ProviderInterface;
+	providerType?: "node" | "bun";
+
 	coconut: Coconut;
 
 	database?: {
@@ -17,6 +20,4 @@ export interface PalmInterface<
 	};
 
 	pick(target: Keys): CollectionInterface<Values[Keys]>;
-
-	fs?: null;
 }
