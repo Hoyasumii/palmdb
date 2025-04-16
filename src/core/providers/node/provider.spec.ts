@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll } from "vitest";
+import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { Provider } from "./provider";
 import { cwd } from "node:process";
 import { z } from "zod";
@@ -9,6 +9,10 @@ describe("Testing Node.js Provider", () => {
 
 	beforeAll(() => {
 		sut = new Provider(currDir);
+	});
+
+	afterAll(async () => {
+		await sut.fs.remove("testing.txt");
 	});
 
 	it("should write a new file", async () => {
