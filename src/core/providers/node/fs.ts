@@ -34,7 +34,7 @@ export class FS extends Sharable implements FSInterface {
 		return newPath;
 	}
 
-	async exists(path: string): Promise<boolean> {
+	exists(path: string): boolean {
 		const newPath = this.getFilename(path);
 
 		return existsSync(newPath);

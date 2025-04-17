@@ -1,20 +1,11 @@
-import type { CollectionInterface, EntityTypeInterface } from "@/core/types";
-import type { Coconut } from "./coconut";
+import type { EntityTypeInterface } from "@/core/types";
 import { EntityType } from "./entity-type";
-import type { ZodObject, ZodRawShape } from "zod";
 import type { OperationCost } from "@/types";
+import { AbstractCollection } from "@/core/models";
 
-export class Collection<CollectionType extends object>
-	implements CollectionInterface<CollectionType>
-{
-	constructor(
-		public items: Record<string, EntityType<CollectionType>>,
-		public coconut: Coconut,
-		public schema: ZodObject<ZodRawShape>,
-		public randomUUID: () => number,
-		public save: () => Promise<void>,
-	) {}
-
+export class Collection<
+	CollectionType extends object,
+> extends AbstractCollection<CollectionType> {
 	async create(data: CollectionType) {
 		await this.coconut.letMeKnowWhenAvailable();
 

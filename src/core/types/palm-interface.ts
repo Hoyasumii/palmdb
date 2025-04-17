@@ -1,4 +1,4 @@
-import type { ZodObject, ZodRawShape } from "zod";
+import type { z, ZodObject, ZodRawShape } from "zod";
 import type { PalmConfig } from "@/types";
 import type { CollectionInterface } from "./collection-interface";
 import type { Coconut } from "@/core/coconut";
@@ -19,5 +19,7 @@ export interface PalmInterface<
 		import: null;
 	};
 
-	pick(target: Keys): CollectionInterface<Values[Keys]>;
+	start(): Promise<void>;
+
+	pick(target: Keys): Promise<CollectionInterface<z.infer<Values[Keys]>>>;
 }

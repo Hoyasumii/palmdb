@@ -42,13 +42,13 @@ describe("Testing Node.js FS Provider", () => {
 	it("should check if the file exists", async () => {
 		await sut.touch("doc.txt");
 
-		await expect(sut.exists("doc.txt")).resolves.toBeTruthy();
+		expect(sut.exists("doc.txt")).toBeTruthy();
 
 		await sut.rm("doc.txt");
 	});
 
 	it("should check if the file doesn't exists", async () => {
-		await expect(sut.exists("doc2.txt")).resolves.toBeFalsy();
+		expect(sut.exists("doc2.txt")).toBeFalsy();
 	});
 
 	it("should check if the file is a file", async () => {
