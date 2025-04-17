@@ -1,8 +1,7 @@
-import type { FileProviderInterface } from "./file-provider-interface";
+import type { FSInterface } from "./fs-interface";
 
 export interface ProviderInterface {
-	basePath: string;
-	fs: FileProviderInterface;
+	fs: FSInterface;
 	randomUUID(): string;
 
 	get(path: string): Promise<string>;

@@ -1,25 +1,18 @@
-import type {
-	FileProviderInterface,
-	ProviderInterface,
-} from "@/core/providers/types";
+import type { ProviderInterface } from "@/core/providers/types";
 import { randomUUID } from "node:crypto";
-import { FileProvider } from "./file-provider";
+import { FS } from "./fs";
 
 export class Provider implements ProviderInterface {
-	public fs: FileProviderInterface;
-
-	constructor(public basePath: string) {
-		this.fs = new FileProvider(basePath);
-	}
+	public fs = new FS();
 
 	async get(path: string) {
 		if (!(await this.fs.exists(path))) throw new Error();
 
-		return await this.fs.read(path);
+		return await this.fs.file.read(path);
 	}
 
 	async save(path: string, data: string) {
-		return await this.fs.write(path, data);
+		return await this.fs.file.write(path, data);
 	}
 
 	randomUUID(): string {

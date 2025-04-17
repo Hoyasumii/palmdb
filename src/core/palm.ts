@@ -27,6 +27,7 @@ export class Palm<
 	pick<TargetKeys extends keyof typeof this.config.schema>(
 		target: TargetKeys,
 	): CollectionInterface<Schemas[TargetKeys]> {
-		throw new Error("Method not implemented.");
+		// this.provider.get(`${target}`)
+		// this.config.schema[target].
 	}
 }
