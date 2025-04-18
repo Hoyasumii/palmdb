@@ -1,4 +1,4 @@
-import { beforeAll, expect, it } from "vitest";
+import { beforeEach, expect, it } from "vitest";
 import { FS } from "./fs";
 import { describe } from "@/test";
 import { join } from "node:path";
@@ -6,7 +6,7 @@ import { join } from "node:path";
 describe("Testing Node.js FS Provider", () => {
 	let sut: FS;
 
-	beforeAll(() => {
+	beforeEach(() => {
 		sut = new FS();
 	});
 

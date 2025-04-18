@@ -1,4 +1,4 @@
-import { it, expect, beforeAll, afterAll } from "vitest";
+import { it, expect, afterAll, beforeEach } from "vitest";
 import { Provider } from "./provider";
 import { z } from "zod";
 import { describe } from "@/test";
@@ -6,7 +6,7 @@ import { describe } from "@/test";
 describe("Testing Node.js Provider", () => {
 	let sut: Provider;
 
-	beforeAll(() => {
+	beforeEach(() => {
 		sut = new Provider();
 	});
 
