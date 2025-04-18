@@ -130,6 +130,7 @@ export class Collection<
 			"affectedItems"
 		>
 	>;
+	
 	async read(where: string | ((target: CollectionType) => boolean)) {
 		await this.coconut.letMeKnowWhenAvailable();
 		const initialTime = Date.now();
