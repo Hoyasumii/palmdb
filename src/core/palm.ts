@@ -1,45 +1,23 @@
-import type { PalmInterface, CollectionInterface } from "@/core/types";
-import { Coconut } from "./coconut";
+import type { CollectionInterface } from "@/core/types";
 import type { z, ZodObject, ZodRawShape } from "zod";
-import type { PalmConfig } from "@/types";
-import type { ProviderInterface } from "@/core/providers/types";
-import nodeProvider from "./providers/node";
 import { join } from "node:path";
 import { Collection } from "./collection";
 import type { EntityType } from "./entity-type";
+import { AbstractPalm } from "./models";
 
 export class Palm<
 	Keys extends string,
 	Values extends Record<string, ZodObject<ZodRawShape>>,
-> implements PalmInterface<Keys, Values>
-{
-	coconut = new Coconut();
-	public provider: ProviderInterface;
-
-	constructor(
-		public config: PalmConfig<Keys, Values>,
-		public providerType: "node" | "bun" = "node",
-	) {
-		if (providerType === "bun") throw new Error();
-
-		this.provider = nodeProvider;
-	}
-
-	async start() {
-		if (!this.provider.fs.exists(process.palm.dbFolderPath)) {
-			await this.provider.fs.mkDir(process.palm.dbFolderPath);
-		}
-
-		if (!this.provider.fs.exists(join(process.palm.dbFolderPath, "store"))) {
-			await this.provider.fs.mkDir(join(process.palm.dbFolderPath, "store"));
-		}
-	}
-
-	database = { export: null, import: null };
-
+> extends AbstractPalm<Keys, Values> {
 	async pick<TargetKeys extends keyof typeof this.config.schema>(
 		target: TargetKeys,
 	): Promise<CollectionInterface<z.infer<Values[TargetKeys]>>> {
+		if (!this.isStarted) throw new Error();
+
+		// TODO: Criar uma persistência nos dados a serem recebidos, validando os dados na leitura e emitindo erro caso algum dos dados a serem lidos não coincidam com o schema desejado.
+		// TODO: Tirar o data dos dados salvos.
+		// TODO: Criar uma feature para caso ocorra uma mudança nos schemas, oferecendo uma mudança total dos dados, ou uma mudança para null nesses novos dados
+
 		const collectionPath = join(
 			process.palm.dbFolderPath,
 			`${target as string}.json`,

@@ -39,4 +39,7 @@ export interface CollectionInterface<CollectionType extends object> {
 	delete(
 		where: (target: CollectionType) => boolean,
 	): Promise<OperationCost<Array<EntityTypeInterface<CollectionType>>>>;
+
+	// TODO: Transformar length em uma propriedade
+	length(): Promise<number>;
 }

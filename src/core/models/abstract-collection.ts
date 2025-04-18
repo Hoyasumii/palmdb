@@ -44,4 +44,10 @@ export abstract class AbstractCollection<CollectionType extends object>
 	abstract delete(
 		where: (target: CollectionType) => boolean,
 	): Promise<OperationCost<EntityTypeInterface<CollectionType>[]>>;
+
+	async length() {
+		await this.coconut.letMeKnowWhenAvailable();
+
+		return Object.values(this.items).length;
+	}
 }
