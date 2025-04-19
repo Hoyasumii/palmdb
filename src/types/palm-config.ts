@@ -1,11 +1,9 @@
-import type { ZodObject, ZodRawShape } from "zod";
-import type { PalmRules } from "./palm-rules";
+import type { ZodRawShape } from "zod";
 import type { PalmConfigCollection } from "./palm-config-collection";
 
 export interface PalmConfig<
-	Keys extends string,
-	Schemas extends Record<Keys, ZodObject<ZodRawShape>>,
+  Collections extends Record<string, PalmConfigCollection<ZodRawShape>>
 > {
-	secret: string;
-	collections: Record<Keys, PalmConfigCollection<Schemas[Keys]>>;
+  secret: string;
+  collections: Collections;
 }
