@@ -12,7 +12,7 @@ describe("Testing Coconut Lock", () => {
 	it("should control asynchronous calls", async () => {
 		const initialTime = Date.now();
 
-		async function run(id: string) {
+		async function run(_: string) {
 			await sut.letMeKnowWhenAvailable();
 			await new Promise((r) => setTimeout(r, 10));
 			sut.release();

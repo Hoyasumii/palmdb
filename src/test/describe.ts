@@ -1,4 +1,4 @@
-import settingProcessPalm from "@/setting-process-palm";
+import settingProcessPalm from "@/setting-palm-process";
 import { describe as vitestDescribe } from "vitest";
 
 /**

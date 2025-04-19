@@ -11,20 +11,20 @@ describe("Testing Node.js File Provider", () => {
 		sut = new File();
 	});
 
-	afterAll(async () => {
-		await rm("doc.txt");
-	});
-
 	it("should write a New File", async () => {
 		await expect(sut.write("doc.txt", "Hello World")).resolves.toBe(
 			`${join(process.palm.currDir, "doc.txt")}`,
 		);
+
+		await rm("doc.txt");
 	});
 
 	it("should read a File", async () => {
 		await sut.write("doc.txt", "Hello World");
 
 		await expect(sut.read("doc.txt")).resolves.toBe("Hello World");
+
+		await rm("doc.txt");
 	});
 
 	it("shouldn't read an inexistent File", async () => {

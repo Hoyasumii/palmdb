@@ -3,8 +3,13 @@ import type { z, ZodObject, ZodRawShape } from "zod";
 import type { FSInterface, ProviderInterface } from "@/core/providers/types";
 import nodeProvider from "@/core/providers/node";
 import { join } from "node:path";
-import type { CollectionInterface, PalmInterface } from "@/core/types";
+import type {
+	CollectionInterface,
+	EntityInterface,
+	PalmInterface,
+} from "@/core/types";
 import { Coconut } from "@/core";
+import settingPalmProcess from "@/setting-palm-process";
 
 export abstract class AbstractPalm<
 	Keys extends string,
@@ -20,6 +25,8 @@ export abstract class AbstractPalm<
 		protected config: PalmConfig<Keys, Values>,
 		providerType: "node" | "bun" = "node",
 	) {
+		settingPalmProcess(config.secret);
+
 		if (providerType === "bun") throw new Error();
 
 		this.provider = nodeProvider;
@@ -39,7 +46,7 @@ export abstract class AbstractPalm<
 		this.isStarted = true;
 	}
 
-	public abstract pick(
+	public abstract pick<BaseEntity extends keyof typeof this.config.schema>(
 		target: Keys,
-	): Promise<CollectionInterface<z.infer<Values[Keys]>>>;
+	): Promise<CollectionInterface<BaseEntity, EntityInterface<BaseEntity>>>;
 }

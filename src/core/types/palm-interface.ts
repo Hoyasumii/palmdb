@@ -1,6 +1,7 @@
 import type { z, ZodObject, ZodRawShape } from "zod";
 import type { CollectionInterface } from "./collection-interface";
 import type { FSInterface } from "@/core/providers/types";
+import type { EntityInterface } from "./entity-interface";
 
 export interface PalmInterface<
 	Keys extends string,
@@ -16,5 +17,7 @@ export interface PalmInterface<
 
 	start(): Promise<void>;
 
-	pick(target: Keys): Promise<CollectionInterface<z.infer<Values[Keys]>>>;
+	pick<BaseEntity extends never>(
+		target: Keys,
+	): Promise<CollectionInterface<BaseEntity, EntityInterface<BaseEntity>>>;
 }

@@ -1,0 +1,1 @@
+// export type SerializedEntityType = Record<string, >;

@@ -1,5 +1,5 @@
 import { describe } from "@/test";
-import { EntityType } from "./entity-type";
+import { Entity } from "./entity";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { randomUUID } from "node:crypto";
 
@@ -7,15 +7,15 @@ type User = {
 	name: string;
 };
 
-describe("Testing Entity Type", () => {
-	let sut: EntityType<User>;
+describe("Testing Entity", () => {
+	let sut: Entity<User>;
 
 	beforeEach(async () => {
 		vi.useFakeTimers();
 
 		vi.setSystemTime(new Date(2023, 11, 10));
 
-		sut = new EntityType({ name: "Alan" }, randomUUID());
+		sut = new Entity({ name: "Alan" }, randomUUID());
 	});
 
 	afterEach(() => {
@@ -23,7 +23,7 @@ describe("Testing Entity Type", () => {
 	});
 
 	it("should update a entity", () => {
-		sut.update = { name: "Alan Reis" };
+		sut.update({ name: "Alan Reis" });
 
 		expect(sut.value.name).toBe("Alan Reis");
 	});
@@ -33,16 +33,26 @@ describe("Testing Entity Type", () => {
 
 		vi.setSystemTime(targetDate);
 
-		sut.update = { name: "Alan Reis Anjos" };
+		sut.update({ name: "Alan Reis Anjos" });
 
 		expect(sut.value._updatedAt?.toISOString()).toBe(targetDate.toISOString());
 	});
 
-	it("should get a value without EntityType base parameters", () => {
-		expect("_id" in sut.baseValue).toBeFalsy();
-	});
-
 	it("should get a value with EntityType base parameters", () => {
 		expect("_id" in sut.value).toBeTruthy();
+	});
+
+	it("should serialize a Entity", () => {
+		expect(sut.serialize().length).toBe(2);
+	});
+
+	it("should deserialize a string and make a new Entity", () => {
+		sut.update({
+			name: "Alberto",
+		});
+
+		const content = sut.serialize();
+
+		expect(Entity.deserialize(...content).value._id).toBe(content[0]);
 	});
 });

@@ -1,8 +1,5 @@
-import settingProcessPalm from "@/setting-process-palm";
 import { Palm } from "@/core";
 import palmConfig from "./palm.config";
-
-settingProcessPalm();
 
 const palm = new Palm(palmConfig);
 

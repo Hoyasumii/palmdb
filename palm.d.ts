@@ -3,6 +3,7 @@ declare namespace NodeJS {
 		palm: {
 			currDir: string;
 			dbFolderPath: string;
+			secret: string;
 		};
 	}
 }

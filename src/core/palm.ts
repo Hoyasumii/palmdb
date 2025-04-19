@@ -1,17 +1,17 @@
-import type { CollectionInterface } from "@/core/types";
+import type { CollectionInterface, EntityInterface } from "@/core/types";
 import type { z, ZodObject, ZodRawShape } from "zod";
 import { join } from "node:path";
 import { Collection } from "./collection";
-import type { EntityType } from "./entity-type";
+import type { Entity } from "./entity";
 import { AbstractPalm } from "./models";
 
 export class Palm<
 	Keys extends string,
 	Values extends Record<string, ZodObject<ZodRawShape>>,
 > extends AbstractPalm<Keys, Values> {
-	async pick<TargetKeys extends keyof typeof this.config.schema>(
-		target: TargetKeys,
-	): Promise<CollectionInterface<z.infer<Values[TargetKeys]>>> {
+	async pick<BaseEntity extends keyof typeof this.config.schema>(
+		target: BaseEntity,
+	): Promise<CollectionInterface<BaseEntity, EntityInterface<BaseEntity>>> {
 		if (!this.isStarted) throw new Error();
 
 		// TODO: Criar uma persistência nos dados a serem recebidos, validando os dados na leitura e emitindo erro caso algum dos dados a serem lidos não coincidam com o schema desejado.
@@ -29,7 +29,9 @@ export class Palm<
 
 		const collectionContent = JSON.parse(
 			await this.provider.fs.file.read(collectionPath),
-		) as Record<string, EntityType<object>>;
+		) as Record<string, Entity<object>>;
+
+		// TODO: Deserialize Entity.data and Serialize in build
 
 		return new Collection(
 			collectionContent,
@@ -37,11 +39,19 @@ export class Palm<
 			this.config.schema[target],
 			this.provider.randomUUID,
 			async () => {
+				// TODO: Esse save precisa deserializar as Entidades antes de salvar
 				await this.provider.save(
 					collectionPath,
 					JSON.stringify(collectionContent, null, 2),
 				);
 			},
-		);
+		) as unknown as CollectionInterface<
+			BaseEntity,
+			EntityInterface<BaseEntity>
+		>;
 	}
 }
+// TODO: Criar Events(comportamentos) para Collections específicas, ou para o palm em específico. exemplo: events({ collection: "account", when: "read" }, () => blabla)
+// TODO: Criar opções para ativar um Logger, que pode ser nativo, ou personalizado
+// TODO: Criar Erros costumizados
+// TODO:
