@@ -9,7 +9,7 @@ export class Palm<
 	Keys extends string,
 	Values extends Record<string, ZodObject<ZodRawShape>>,
 > extends AbstractPalm<Keys, Values> {
-	async pick<BaseEntity extends keyof typeof this.config.schema>(
+	async pick<BaseEntity extends keyof typeof this.config.collections>(
 		target: BaseEntity,
 	): Promise<CollectionInterface<BaseEntity, EntityInterface<BaseEntity>>> {
 		if (!this.isStarted) throw new Error();

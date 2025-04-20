@@ -1,5 +1,4 @@
-import { defineCollection } from "@/utils/define-collection";
-import { definePalmConfig } from "@/utils/define-palm-config";
+import { defineCollection, definePalmConfig } from "@/utils";
 import { z } from "zod";
 
 const config = definePalmConfig({

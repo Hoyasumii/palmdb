@@ -22,12 +22,12 @@
 		"vite-tsconfig-paths": "^5.1.4",
 		"vitest": "^3.1.1"
 	},
-	"dependencies": {
-		"zod": "^3.24.2"
-	},
 	"pnpm": {
 		"onlyBuiltDependencies": [
 			"esbuild"
 		]
+	},
+	"dependencies": {
+		"zod": "^3.24.3"
 	}
 }

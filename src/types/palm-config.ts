@@ -1,9 +1,11 @@
-import type { ZodRawShape } from "zod";
-import type { PalmConfigCollection } from "./palm-config-collection";
+import type {
+	AnyZodObject,
+	PalmConfigCollection,
+} from "./palm-config-collection";
 
 export interface PalmConfig<
-  Collections extends Record<string, PalmConfigCollection<ZodRawShape>>
+	Collections extends Record<string, PalmConfigCollection<AnyZodObject>>,
 > {
-  secret: string;
-  collections: Collections;
+	secret: string;
+	collections: Collections;
 }

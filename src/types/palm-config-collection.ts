@@ -1,19 +1,9 @@
-import type {
-	UnknownKeysParam,
-	z,
-	ZodObject,
-	ZodRawShape,
-	ZodTypeAny,
-} from "zod";
+import type { z, ZodObject } from "zod";
 
-export interface PalmConfigCollection<
-	Shape extends ZodRawShape,
-	Schema extends ZodObject<
-		Shape,
-		UnknownKeysParam,
-		ZodTypeAny
-	> = ZodObject<Shape>,
-> {
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+export type AnyZodObject = ZodObject<any, any, any, any, any>;
+
+export interface PalmConfigCollection<Schema extends AnyZodObject> {
 	schema: Schema;
 	rules?: {
 		uniqueKeys?: Array<keyof z.infer<Schema>>;

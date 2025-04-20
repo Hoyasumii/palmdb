@@ -1,9 +1,9 @@
+import type { PalmConfigCollection } from "@/types";
 import type { PalmConfig } from "@/types/palm-config";
-import type { ZodObject, ZodRawShape } from "zod";
+import type { AnyZodObject } from "@/types/palm-config-collection";
 
 export function definePalmConfig<
-	Keys extends string,
-	Schemas extends Record<Keys, ZodObject<ZodRawShape>>,
->(config: PalmConfig<Keys, Schemas>): PalmConfig<Keys, Schemas> {
+	Collections extends Record<string, PalmConfigCollection<AnyZodObject>>,
+>(config: PalmConfig<Collections>): PalmConfig<Collections> {
 	return config;
 }
