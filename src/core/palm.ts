@@ -1,7 +1,7 @@
 import type { CollectionInterface, EntityInterface } from "@/core/types";
 import type { z, ZodObject, ZodRawShape } from "zod";
 import { join } from "node:path";
-import { Collection } from "./collection";
+import { Collection } from "./_collection";
 import type { Entity } from "./entity";
 import { AbstractPalm } from "./models";
 

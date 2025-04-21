@@ -1,10 +1,13 @@
-import type { PropertyInterface } from "./types/property-interface";
-import type { PropertyTypes } from "./types/property-types";
+import type {
+	PropertyImplContructor,
+	PropertyImplInterface,
+	PropertyTypes,
+} from "@/core/property/types";
 
 export class PropertyImpl<
 	PropertyType extends keyof PropertyTypes = keyof PropertyTypes,
 	IsNullable extends boolean = boolean,
-> implements PropertyInterface<PropertyType, IsNullable>
+> implements PropertyImplInterface<PropertyType, IsNullable>
 {
 	readonly type: PropertyType;
 	readonly nullable: IsNullable;
@@ -14,8 +17,7 @@ export class PropertyImpl<
 		type,
 		nullable,
 		unique,
-	}: Partial<Pick<PropertyInterface<PropertyType>, "nullable" | "unique">> &
-		Pick<PropertyInterface<PropertyType>, "type">) {
+	}: PropertyImplContructor<PropertyType>) {
 		this.type = type;
 		this.nullable = (nullable ?? false) as IsNullable;
 		this.unique = unique ?? false;

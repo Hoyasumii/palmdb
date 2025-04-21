@@ -1,6 +1,6 @@
 import type { PropertyTypes } from "./property-types";
 
-export interface PropertyInterface<
+export interface PropertyBase<
 	PropertyType extends keyof PropertyTypes = keyof PropertyTypes,
 	IsNullable extends boolean = boolean,
 > {
