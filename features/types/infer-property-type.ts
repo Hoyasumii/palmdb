@@ -1,11 +1,12 @@
 import type { PropertyImpl } from "../property-impl";
 import type { PropertyTypes } from "./property-types";
 
-export type InferPropertyType<P extends PropertyImpl> = P extends PropertyImpl<
-	infer K
+export type InferPropertyType<P> = P extends PropertyImpl<
+	infer K,
+	infer IsNullable
 >
 	? K extends keyof PropertyTypes
-		? P["nullable"] extends true
+		? IsNullable extends true
 			? PropertyTypes[K] | null
 			: PropertyTypes[K]
 		: never

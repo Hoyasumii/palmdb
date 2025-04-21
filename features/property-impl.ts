@@ -1,20 +1,27 @@
 import type { PropertyInterface } from "./types/property-interface";
 import type { PropertyTypes } from "./types/property-types";
 
-export class PropertyImpl<K extends keyof PropertyTypes = keyof PropertyTypes>
-	implements PropertyInterface<K>
+export class PropertyImpl<
+	PropertyType extends keyof PropertyTypes = keyof PropertyTypes,
+	IsNullable extends boolean = boolean,
+> implements PropertyInterface<PropertyType, IsNullable>
 {
-	type: K;
-	nullable: boolean;
-	unique: boolean;
+	readonly type: PropertyType;
+	readonly nullable: IsNullable;
+	readonly unique: boolean;
 
-	constructor({ type, nullable, unique }: PropertyInterface<K>) {
+	constructor({
+		type,
+		nullable,
+		unique,
+	}: Partial<Pick<PropertyInterface<PropertyType>, "nullable" | "unique">> &
+		Pick<PropertyInterface<PropertyType>, "type">) {
 		this.type = type;
-		this.nullable = nullable ?? false;
+		this.nullable = (nullable ?? false) as IsNullable;
 		this.unique = unique ?? false;
 	}
 
-	match(content: K | null) {
+	match(content: PropertyType | null) {
 		if (this.nullable && !content) return true;
 
 		if (typeof content === "number" && this.type === "number") return true;

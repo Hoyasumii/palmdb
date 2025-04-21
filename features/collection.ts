@@ -1,15 +1,19 @@
 import { property } from "./property";
 import type { PropertyImpl } from "./property-impl";
 import type { InferPropertyType } from "./types/infer-property-type";
-import type { PropertyTypes } from "./types/property-types";
 
-class Collection<Schema extends Record<string, PropertyImpl>> {
-	constructor(public a: Schema) {}
+class Collection<
+	Keys extends string,
+	Schema extends Record<Keys, PropertyImpl>,
+> {
+	constructor(public schema: Schema) {}
 
-	getShape(): {
+	getValue(): {
 		[K in keyof Schema]: InferPropertyType<Schema[K]>;
 	} {
-		throw new Error("not implemented");
+		return this.schema as unknown as {
+			[K in keyof Schema]: InferPropertyType<Schema[K]>;
+		};
 	}
 }
 
@@ -18,7 +22,7 @@ const myCollection = new Collection({
 	email: property({ type: "string", unique: true }),
 	heigth: property({ type: "number" }),
 	birthDate: property({ type: "date", nullable: true }),
-	isMale: property({ type: "boolean" })
+	isMale: property({ type: "boolean" }),
 });
 
-myCollection.getShape();
+myCollection.getValue();
