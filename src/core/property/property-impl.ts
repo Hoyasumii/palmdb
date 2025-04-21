@@ -1,13 +1,13 @@
 import type {
 	PropertyImplContructor,
-	PropertyImplInterface,
+	PropertyInterface,
 	PropertyTypes,
-} from "@/core/property/types";
+} from "./types";
 
 export class PropertyImpl<
 	PropertyType extends keyof PropertyTypes = keyof PropertyTypes,
 	IsNullable extends boolean = boolean,
-> implements PropertyImplInterface<PropertyType, IsNullable>
+> implements PropertyInterface<PropertyType, IsNullable>
 {
 	readonly type: PropertyType;
 	readonly nullable: IsNullable;
@@ -47,3 +47,4 @@ export class PropertyImpl<
 		return false;
 	}
 }
+// TODO: Escrever os testes

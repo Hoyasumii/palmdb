@@ -5,4 +5,5 @@ export class BaseSchema<
   Schema extends Record<Keys, PropertyImpl>,
 > {
   constructor(public value: Schema) {}
+  // TODO: Implementar um Match
 }

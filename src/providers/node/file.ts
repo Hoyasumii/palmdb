@@ -1,6 +1,6 @@
-import type { FileInterface } from "@/core/providers/types";
+import type { FileInterface } from "@/providers/types";
 import { readFile, writeFile } from "node:fs/promises";
-import { Sharable } from "@/core/providers";
+import { Sharable } from "@/providers";
 
 export class File extends Sharable implements FileInterface {
 	async write(path: string, content: string): Promise<string> {

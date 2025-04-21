@@ -1,5 +1,5 @@
 import { describe } from "@/test";
-import { Entity } from "./entity";
+import { Entity } from ".";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { randomUUID } from "node:crypto";
 
@@ -15,7 +15,7 @@ describe("Testing Entity", () => {
 
 		vi.setSystemTime(new Date(2023, 11, 10));
 
-		sut = new Entity({ name: "Alan" }, randomUUID());
+		sut = new Entity({ value: { name: "Alan" }, id: randomUUID() });
 	});
 
 	afterEach(() => {

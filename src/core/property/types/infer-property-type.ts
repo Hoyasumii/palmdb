@@ -1,7 +1,7 @@
-import type { PropertyImplInterface } from "./property-impl-interface";
+import type { PropertyInterface } from "./property-interface";
 import type { PropertyTypes } from "./property-types";
 
-export type InferPropertyType<P> = P extends PropertyImplInterface<
+export type InferPropertyType<P> = P extends PropertyInterface<
 	infer PropertyType,
 	infer IsNullable
 >

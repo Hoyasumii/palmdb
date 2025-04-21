@@ -1,7 +1,7 @@
-import type { FSInterface } from "@/core/providers/types";
+import type { FSInterface } from "@/providers/types";
 import { existsSync } from "node:fs";
 import { mkdir, rm, stat, writeFile } from "node:fs/promises";
-import { Sharable } from "@/core/providers";
+import { Sharable } from "@/providers";
 import { File } from "./file";
 
 export class FS extends Sharable implements FSInterface {
