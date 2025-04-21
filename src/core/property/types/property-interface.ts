@@ -9,5 +9,5 @@ export interface PropertyInterface<
 	readonly nullable: IsNullable;
 	readonly unique: boolean;
 
-	match(content: PropertyType | null): boolean;
+	// match(content: PropertyType | null): boolean;
 }

@@ -1,6 +1,7 @@
 import { property } from "./property";
 import type { PropertyImpl } from "./property/property-impl";
 import type { InferPropertyType } from "./property/types";
+import type { InferSchema } from "./schema";
 
 class Collection<
   Keys extends string,
@@ -25,4 +26,4 @@ const myCollection = new Collection({
   isMale: property({ type: "boolean" }),
 });
 
-myCollection.getValue();
+//  string({ })

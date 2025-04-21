@@ -1,4 +1,4 @@
-import { describe } from "@/test";
+import { describe } from "@/global/test";
 import { randomUUIDv7 } from "bun";
 import { expect, it } from "vitest";
 // import "@/setting-process-palm";

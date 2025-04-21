@@ -1,6 +1,6 @@
 import { beforeEach, expect, it } from "vitest";
 import { FS } from "./fs";
-import { describe } from "@/test";
+import { describe } from "@/global/test";
 import { join } from "node:path";
 
 describe("Testing Node.js FS Provider", () => {

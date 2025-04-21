@@ -23,28 +23,28 @@ export class PropertyImpl<
 		this.unique = unique ?? false;
 	}
 
-	match(content: PropertyType | null) {
-		if (this.nullable && !content) return true;
+	// match(content: PropertyType | null) {
+	// 	if (this.nullable && !content) return true;
 
-		if (typeof content === "number" && this.type === "number") return true;
-		if (typeof content === "boolean" && this.type === "boolean") return true;
-		if (
-			typeof content === "object" &&
-			(this.type === "json" || this.type === "array")
-		) {
-			if (Array.isArray(content) && this.type === "array") return true;
+	// 	if (typeof content === "number" && this.type === "number") return true;
+	// 	if (typeof content === "boolean" && this.type === "boolean") return true;
+	// 	if (
+	// 		typeof content === "object" &&
+	// 		(this.type === "json" || this.type === "array")
+	// 	) {
+	// 		if (Array.isArray(content) && this.type === "array") return true;
 
-			try {
-				JSON.parse(content as unknown as string);
-				return true;
-			} catch (_) {
-				return false;
-			}
-		}
+	// 		try {
+	// 			JSON.parse(content as unknown as string);
+	// 			return true;
+	// 		} catch (_) {
+	// 			return false;
+	// 		}
+	// 	}
 
-		if (typeof content === "string" && this.type === "date") return true;
+	// 	if (typeof content === "string" && this.type === "date") return true;
 
-		return false;
-	}
+	// 	return false;
+	// }
 }
 // TODO: Escrever os testes

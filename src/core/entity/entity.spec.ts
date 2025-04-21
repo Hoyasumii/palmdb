@@ -1,4 +1,4 @@
-import { describe } from "@/test";
+import { describe } from "@/global/test";
 import { Entity } from ".";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { randomUUID } from "node:crypto";

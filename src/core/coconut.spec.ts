@@ -1,4 +1,4 @@
-import { describe } from "@/test";
+import { describe } from "@/global/test";
 import { Coconut } from "./coconut";
 import { beforeEach, expect, it } from "vitest";
 

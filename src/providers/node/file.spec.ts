@@ -2,7 +2,7 @@ import { afterAll, beforeEach, expect, it } from "vitest";
 import { File } from "./file";
 import { join } from "node:path";
 import { rm } from "node:fs/promises";
-import { describe } from "@/test";
+import { describe } from "@/global/test";
 
 describe("Testing Node.js File Provider", () => {
 	let sut: File;

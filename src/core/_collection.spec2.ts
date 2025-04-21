@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { beforeEach, expect, it } from "vitest";
 import { z } from "zod";
-import { describe } from "@/test";
+import { describe } from "@/global/test";
 import { Collection, Coconut } from "@/core";
 import { faker } from "@faker-js/faker";
 
