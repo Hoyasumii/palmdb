@@ -1,5 +1,5 @@
 import type { BaseSchema, InferSchema } from "@/core/schema";
-import type { PropertyImpl } from "@/core/property/property-impl";
+import type { PropertyImpl } from "@/core/property/property-base";
 import type { Coconut, Entity } from "@/core";
 
 export class BaseCollection<

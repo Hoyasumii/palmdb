@@ -1,20 +1,19 @@
-import { PropertyImpl } from "./property-impl";
-import type { PropertyBase } from "./types/property-base";
+import { PropertyBase } from "../property-base";
 
-type PropertyImplConstructorProps = Partial<
+type PropertyBaseConstructorProps = Partial<
 	Pick<PropertyBase<"string">, "nullable" | "unique">
 >;
 
 export function string<IsNullable extends boolean = boolean>(
 	props?: { nullable: true } & Partial<Pick<PropertyBase<"string">, "unique">>,
-): PropertyImpl<"string", true>;
+): PropertyBase<"string", true>;
 
 export function string<IsNullable extends boolean = boolean>(
 	props?: Partial<Pick<PropertyBase<"string">, "nullable" | "unique">>,
-): PropertyImpl<"string", false>;
+): PropertyBase<"string", false>;
 
 export function string<IsNullable extends boolean = boolean>(
-	props?: PropertyImplConstructorProps,
-): PropertyImpl<"string", IsNullable> {
-	return new PropertyImpl<"string", IsNullable>({ type: "string", ...props });
+	props?: PropertyBaseConstructorProps,
+): PropertyBase<"string", IsNullable> {
+	return new PropertyBase<"string", IsNullable>({ type: "string", ...props });
 }

@@ -1,4 +1,4 @@
-import type { PropertyImpl } from "@/core/property/property-impl";
+import type { PropertyImpl } from "@/core/property/property-base";
 import { BaseSchema } from "./base-schema";
 
 export function schema<

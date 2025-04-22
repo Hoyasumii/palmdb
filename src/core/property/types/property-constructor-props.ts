@@ -1,4 +1,4 @@
-import type { PropertyBase } from "./property-base";
+import type { PropertyBase } from "../property-base";
 import type { PropertyTypes } from "./property-types";
 
 export type PropertyImplContructor<

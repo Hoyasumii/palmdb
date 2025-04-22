@@ -1,4 +1,4 @@
-import type { ProviderInterface } from "@/providers/types";
+import type { ProviderInterface } from "@/runtime/types";
 import { randomUUID } from "node:crypto";
 import { FS } from "./fs";
 

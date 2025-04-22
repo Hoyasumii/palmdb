@@ -1,5 +1,5 @@
 import { Entity } from "../entity";
-import type { PropertyImpl } from "../property/property-impl";
+import type { PropertyImpl } from "../property/property-base";
 import type { BaseSchema, InferSchema } from "../schema";
 import type { BaseCollection } from "./base-collection";
 import type { CreateCollectionInterface } from "./types/create-collection-interface";
