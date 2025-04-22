@@ -1,9 +1,8 @@
 import type { PropertyBase } from "@/core/property/property-base";
 import type { BaseSchema } from "./base-schema";
 import type { InferSchema } from "./infer-schema";
-import { schema } from ".";
-import { boolean, date, string } from "../property";
-import type { InferPropertyType } from "../property/types";
+import { propertyValidator } from "@/core/property";
+import type { InferPropertyType } from "@/core/property/types";
 
 export class SchemaValidator<
   Keys extends string,
@@ -12,38 +11,29 @@ export class SchemaValidator<
 > {
   constructor(private readonly schema: BaseSchema<Keys, Schema>) {}
 
-  propertyIsMatching<TargetKey extends keyof Schema>(
+  private propertyIsMatching<TargetKey extends keyof Schema>(
     key: TargetKey,
     property: EntityType[TargetKey]
   ): boolean {
-    if (this.schema.value[key].nullable && !property) return true;
-    // if (typeof property === "string")
-
-    if (
-      this.schema.value[key].type === "string" &&
-      typeof property === "string"
-    )
-      return true;
-
-    // return this.schema[key]
-    return true;
+    return propertyValidator(
+      this.schema.value[key],
+      property as InferPropertyType<Schema[TargetKey]>
+    );
   }
 
   validate(entity: EntityType) {
-    return true;
+    let returnType = true;
+
+    for (const [key, value] of Object.entries(entity)) {
+      if (
+        !this.propertyIsMatching(
+          key as keyof Schema,
+          value as EntityType[keyof Schema]
+        )
+      )
+        returnType = false;
+    }
+
+    return returnType;
   }
 }
-
-const mySchema = schema({
-  name: string({}),
-  gender: boolean({ nullable: true }),
-  birthDate: date({}),
-});
-
-const a: InferPropertyType<typeof mySchema.value.name>;
-
-const validator = new SchemaValidator(mySchema);
-
-validator.propertyIsMatching("name", "Abc");
-
-// validator.validate({ name: "Alan", gender: null });

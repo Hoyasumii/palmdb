@@ -1,6 +1,8 @@
 import type { PropertyBase } from "@/core/property/property-base";
 import { BaseSchema } from "./base-schema";
 
+export { SchemaValidator } from "./schema-validator";
+
 export function schema<
   Keys extends string,
   Schema extends Record<Keys, PropertyBase>
