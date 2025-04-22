@@ -7,10 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      zod:
-        specifier: ^3.24.3
-        version: 3.24.3
     devDependencies:
       '@biomejs/biome':
         specifier: 1.9.4
@@ -640,9 +636,6 @@ packages:
     engines: {node: '>=8'}
     hasBin: true
 
-  zod@3.24.3:
-    resolution: {integrity: sha512-HhY1oqzWCQWuUqvBFnsyrtZRhyPeR7SUGv+C4+MsisMuVfSPx8HpwWqH8tRahSlt6M3PiFAcoeFhZAqIXTxoSg==}
-
 snapshots:
 
   '@biomejs/biome@1.9.4':
@@ -1124,5 +1117,3 @@ snapshots:
     dependencies:
       siginfo: 2.0.0
       stackback: 0.0.2
-
-  zod@3.24.3: {}
