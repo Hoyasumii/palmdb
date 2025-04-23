@@ -6,7 +6,7 @@ export class Provider implements ProviderInterface {
 	public fs = new FS();
 
 	async get(path: string) {
-		if (!(await this.fs.exists(path))) throw new Error();
+		if (!(this.fs.exists(path))) throw new Error();
 
 		return await this.fs.file.read(path);
 	}
