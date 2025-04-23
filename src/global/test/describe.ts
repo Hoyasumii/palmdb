@@ -16,6 +16,6 @@ import { describe as vitestDescribe } from "vitest";
  * ```
  */
 export function describe(name: string, fn: () => void) {
-	settingProcessPalm();
+	settingProcessPalm("");
 	vitestDescribe(name, fn);
 }

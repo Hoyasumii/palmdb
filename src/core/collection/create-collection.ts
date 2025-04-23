@@ -1,36 +1,41 @@
 import { Entity } from "../entity";
-import type { PropertyImpl } from "../property/property-impl";
+import type { PropertyBase } from "../property/property-base";
 import type { BaseSchema, InferSchema } from "../schema";
-import type { BaseCollection } from "./base-collection";
+import type { CollectionRepository } from "./collection-repository";
 import type { CreateCollectionInterface } from "./types/create-collection-interface";
 
 export class CreateCollection<
-	Keys extends string,
-	Schema extends Record<Keys, PropertyImpl>,
-	EntityType extends InferSchema<BaseSchema<Keys, Schema>>,
+  Keys extends string,
+  Schema extends Record<Keys, PropertyBase>,
+  EntityType extends InferSchema<BaseSchema<Keys, Schema>>
 > implements CreateCollectionInterface<EntityType>
 {
-	constructor(private repository: BaseCollection<Keys, Schema, EntityType>) {}
+  constructor(private readonly repository: CollectionRepository<Keys, Schema, EntityType>) {}
 
-	async create(data: EntityType): Promise<string> {
-		await this.repository.coconut.letMeKnowWhenAvailable();
+  async create(data: EntityType): Promise<string> {
+    await this.repository.coconut.letMeKnowWhenAvailable();
 
-		let itemId = this.repository.randomUUID();
+    let itemId = this.repository.randomUUID();
 
-		while (itemId in this.repository.items) {
-			itemId = this.repository.randomUUID();
-		}
+    while (itemId in this.repository.items) {
+      itemId = this.repository.randomUUID();
+    }
 
-		// TODO: Validar para ver se a entity está dando match com o Schema
+    if (!this.repository.validator.validate(data)) {
+      await this.repository.coconut.release();
+      throw new Error();
+    }
 
-		this.repository.items[itemId] = new Entity<EntityType>({
-			id: itemId,
-			value: data,
-		});
+		// TODO: Verificar se existe alguma propriedade única que já teve registo no Database -> O(n*m)
 
-		await this.repository.save();
-		await this.repository.coconut.release();
+    this.repository.items[itemId] = new Entity<EntityType>({
+      id: itemId,
+      value: data,
+    });
 
-		return itemId;
-	}
+    await this.repository.save();
+    await this.repository.coconut.release();
+
+    return itemId;
+  }
 }

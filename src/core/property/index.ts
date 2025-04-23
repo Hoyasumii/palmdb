@@ -1,7 +1,3 @@
-export { property } from "./property";
-export { string } from "./string";
-export { array } from "./array";
-export { boolean } from "./boolean";
-export { date } from "./date";
-export { json } from "./json";
-export { number } from "./number";
+export { array, boolean, date, json, number, string } from "./generators";
+export type { InferPropertyType } from "./types";
+export { propertyValidator } from "./property-validator";
