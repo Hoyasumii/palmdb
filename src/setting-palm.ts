@@ -1,17 +1,18 @@
-import { Coconut } from "./core";
-import { Sea } from "./core/sea";
+import { Coconut, Sea } from "./core";
 import { isNodeOrBun } from "./global/utils";
-import { Provider as NodeProvider } from "./runtime/node/provider";
-import { Provider as BunProvider } from "./runtime/bun/provider";
 
 type SettingPalmProperties = {
   secret: string;
+  testing?: boolean
 };
 
-export default ({ secret }: SettingPalmProperties) => {
+export default async ({ secret, testing }: SettingPalmProperties) => {
   const runner = isNodeOrBun();
 
-  const runtime = runner === "node" ? new NodeProvider() : new BunProvider();
+  const runtime =
+    runner === "node"
+      ? (await import("./runtime/node")).default
+      : (await import("./runtime/bun")).default;
 
   global.palm = {
     cache: new Sea(),
@@ -22,6 +23,6 @@ export default ({ secret }: SettingPalmProperties) => {
       secret,
     },
     randomUUID: runtime.randomUUID,
-    save: runtime.save,
+    save: testing ? runtime.save : async () => "",
   };
 };

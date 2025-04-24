@@ -1,12 +1,13 @@
 import type { ProviderInterface } from "@/runtime/types";
 import { FS } from "./fs";
 import { randomUUIDv7 } from "bun";
+import { PathNotFoundError } from "@/errors";
 
 export class Provider implements ProviderInterface {
   public fs = new FS();
 
   async get(path: string) {
-    if (!(this.fs.exists(path))) throw new Error();
+    if (!(this.fs.exists(path))) throw new PathNotFoundError();
 
     return await this.fs.file.read(path);
   }

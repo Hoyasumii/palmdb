@@ -1,3 +1,5 @@
+import { EntityExistsError } from "@/errors";
+
 export class Sea {
   private items: Record<string, Record<string, Record<string, null>>> = {};
 
@@ -29,7 +31,7 @@ export class Sea {
     this.genCollection(collection);
     this.genProperty(collection, property);
 
-    if (this.exists(`${path}/${key}`)) throw new Error();
+    if (this.exists(`${path}/${key}`)) throw new EntityExistsError();
 
     this.items[collection][property][key] = null;
   }

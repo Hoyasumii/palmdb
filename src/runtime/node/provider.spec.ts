@@ -26,4 +26,7 @@ await describe("Testing Node.js Provider", () => {
 
 		expect(targetUUID).toBeDefined();
 	});
+
+	// TODO: Criar um teste para verificar o erro;
+	it.todo("criar um ngç pra dar erro")
 });

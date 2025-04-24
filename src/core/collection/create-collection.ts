@@ -5,6 +5,7 @@ import { getUniqueProperties } from "@/core/schema/get-unique-properties";
 import type { CollectionRepository } from "./collection-repository";
 import { CollectionUniquenessChecker } from "./collection-uniquess-checker";
 import type { CreateCollectionInterface } from "./types/create-collection-interface";
+import { EntityExistsError, EntityNotMatchWithSchemaError } from "@/errors";
 
 export class CreateCollection<
   Keys extends string,
@@ -44,10 +45,11 @@ export class CreateCollection<
 
     if (!this.repository.validator.validate(data)) {
       await global.palm.coconut.release();
-      throw new Error();
+      throw new EntityNotMatchWithSchemaError();
     }
 
-    if (!this.uniquenessChecker.entityIsUnique(data)) throw new Error();
+    if (!this.uniquenessChecker.entityIsUnique(data))
+      throw new EntityExistsError();
 
     this.repository.items[itemId] = new Entity<EntityType>({
       id: itemId,
@@ -60,6 +62,3 @@ export class CreateCollection<
     return itemId;
   }
 }
-
-// TODO: Criar o Bun Runtime Provider
-// TODO: Criar os Erros personalizados
