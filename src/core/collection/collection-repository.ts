@@ -1,6 +1,7 @@
 import type { BaseSchema, InferSchema, SchemaValidator } from "@/core/schema";
 import type { PropertyBase } from "@/core/property/property-base";
 import type { Entity } from "@/core";
+import { join } from "node:path";
 
 type CollectionRepositoryConstructorProperties<
   Keys extends string,
@@ -22,12 +23,13 @@ export class CollectionRepository<
   public schema: BaseSchema<Keys, Schema>;
   public validator: SchemaValidator<Keys, Schema, EntityType>;
   public collectionName: string;
+  public save: () => Promise<void>;
 
   constructor({
     items,
     schema,
     validator,
-    collectionName
+    collectionName,
   }: CollectionRepositoryConstructorProperties<Keys, Schema, EntityType>) {
     if (new.target !== CollectionRepository) throw new Error();
 
@@ -35,5 +37,21 @@ export class CollectionRepository<
     this.schema = schema;
     this.validator = validator;
     this.collectionName = collectionName;
+
+    const collectionPath = join(
+      global.palm.info.dbFolderPath,
+      `${collectionName}.json`
+    );
+
+    // TODO: Verificar se o arquivo existe, senão, crie-o
+    // TODO: Caso o arquivo exista: Deserialize -> valide-o
+    // TODO: Atribua a items
+
+    this.save = async () => {
+      await global.palm.save(
+        collectionPath,
+        JSON.stringify(this.items, null, 2)
+      );
+    };
   }
 }

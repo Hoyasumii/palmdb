@@ -28,12 +28,18 @@ export class CollectionUniquenessChecker<
     );
   }
 
-  run(entity: EntityType) { // TODO: Terminar essa porra
+  entityIsUnique(entity: EntityType): boolean {
+    let returnValue = true;
     const entityEntries = Object.entries(entity);
 
-    for (const uniqueProperty of this.uniqueProperties) {
-      global.palm.cache.exists(`${this.collectionPath}/${uniqueProperty}/`);
+    for (const [key, value] of entityEntries) {
+      if (!(key in this.uniqueProperties)) continue;
+
+      if (this.propertyIsRepeated(key, value as string)) {
+        returnValue = false;
+      }
     }
-    // global.palm.cache.exists(`${}`)
+
+    return returnValue;
   }
 }

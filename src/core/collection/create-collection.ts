@@ -1,11 +1,9 @@
-import { Entity } from "../entity";
-import type { PropertyBase } from "../property/property-base";
-import type {
-  BaseSchema,
-  InferSchema,
-} from "../schema";
-import { getUniqueProperties } from "../schema/get-unique-properties";
+import { Entity } from "@/core/entity";
+import type { PropertyBase } from "@/core/property/property-base";
+import type { BaseSchema, InferSchema } from "@/core/schema";
+import { getUniqueProperties } from "@/core/schema/get-unique-properties";
 import type { CollectionRepository } from "./collection-repository";
+import { CollectionUniquenessChecker } from "./collection-uniquess-checker";
 import type { CreateCollectionInterface } from "./types/create-collection-interface";
 
 export class CreateCollection<
@@ -14,9 +12,20 @@ export class CreateCollection<
   EntityType extends InferSchema<BaseSchema<Keys, Schema>>
 > implements CreateCollectionInterface<EntityType>
 {
+  private uniquenessChecker: CollectionUniquenessChecker<
+    Keys,
+    Schema,
+    EntityType
+  >;
+
   constructor(
     private readonly repository: CollectionRepository<Keys, Schema, EntityType>
-  ) {}
+  ) {
+    this.uniquenessChecker = new CollectionUniquenessChecker({
+      uniqueProperties: getUniqueProperties(this.repository.schema),
+      collectionPath: this.repository.collectionName,
+    });
+  }
 
   private generateUUID(): string {
     let itemId = global.palm.randomUUID();
@@ -28,10 +37,6 @@ export class CreateCollection<
     return itemId;
   }
 
-  // private findExistentProperty(): boolean {
-  //   return true;
-  // }
-
   async create(data: EntityType): Promise<string> {
     await global.palm.coconut.letMeKnowWhenAvailable();
 
@@ -42,18 +47,18 @@ export class CreateCollection<
       throw new Error();
     }
 
-    // getUniqueProperties(this.repository.schema)
-    global.palm.cache.exists("");
+    if (!this.uniquenessChecker.entityIsUnique(data)) throw new Error();
 
     this.repository.items[itemId] = new Entity<EntityType>({
       id: itemId,
       value: data,
     });
 
-    // TODO: Abstrair o palm.save
-    // await global.palm.save();
+    await this.repository.save();
     await global.palm.coconut.release();
 
     return itemId;
   }
 }
+
+// TODO: Criar o Bun Runtime Provider

@@ -11,12 +11,16 @@ export class Sea {
     this.items[collectionName] = {};
   }
 
+  private genCollection(collectionName: string) {
+    if (!collectionName) {
+      this.setCollection(collectionName);
+    }
+  }
+
   public set(path: string, key: string): void {
     const [collection, property] = path.split("/");
 
-    if (!collection) {
-      this.setCollection(collection);
-    }
+    this.genCollection(collection);
 
     if (!property) {
       this.items[collection][property] = {};
@@ -29,6 +33,8 @@ export class Sea {
 
   public exists(path: string): boolean {
     const [collection, property, key] = path.split("/");
+
+    this.genCollection(collection);
 
     if (key in this.items[collection][property]) return true;
 
