@@ -15,7 +15,8 @@ import { describe as vitestDescribe } from "vitest";
  * });
  * ```
  */
-export function describe(name: string, fn: () => void) {
-	settingProcessPalm({ secret: "" });
+export async function describe(name: string, fn: () => void) {
+	// new Promise(async () => {})
+	await settingProcessPalm({ secret: "" });
 	vitestDescribe(name, fn);
 }

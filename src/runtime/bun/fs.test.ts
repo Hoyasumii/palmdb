@@ -3,7 +3,7 @@ import { FS } from "./fs";
 import { describe } from "@/global/test";
 import { join } from "node:path";
 
-await describe("Testing Node.js FS Provider", () => {
+await describe("Testing Bun FS Provider", () => {
 	let sut: FS;
 
 	beforeEach(() => {

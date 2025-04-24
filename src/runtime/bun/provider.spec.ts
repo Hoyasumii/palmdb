@@ -2,7 +2,7 @@ import { it, expect, afterAll, beforeEach } from "vitest";
 import { Provider } from "./provider";
 import { describe } from "@/global/test";
 
-await describe("Testing Node.js Provider", () => {
+await describe("Testing Bun Provider", () => {
 	let sut: Provider;
 
 	beforeEach(() => {

@@ -6,7 +6,7 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "vitest --run",
-		"bun:test": "bun test --include *.test.ts"
+		"bun:test": "bun test --include test"
 	},
 	"keywords": [],
 	"author": "",

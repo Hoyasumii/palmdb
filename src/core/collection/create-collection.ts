@@ -62,3 +62,4 @@ export class CreateCollection<
 }
 
 // TODO: Criar o Bun Runtime Provider
+// TODO: Criar os Erros personalizados

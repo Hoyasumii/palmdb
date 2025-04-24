@@ -17,14 +17,17 @@ export class Sea {
     }
   }
 
+  private genProperty(collectionName: string, propertyName: string) {
+    if (!this.items[collectionName][propertyName]) {
+      this.items[collectionName][propertyName] = {};
+    }
+  }
+
   public set(path: string, key: string): void {
     const [collection, property] = path.split("/");
 
     this.genCollection(collection);
-
-    if (!property) {
-      this.items[collection][property] = {};
-    }
+    this.genProperty(collection, property);
 
     if (this.exists(`${path}/${key}`)) throw new Error();
 
@@ -35,6 +38,7 @@ export class Sea {
     const [collection, property, key] = path.split("/");
 
     this.genCollection(collection);
+    this.genProperty(collection, property);
 
     if (key in this.items[collection][property]) return true;
 

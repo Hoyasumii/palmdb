@@ -11,7 +11,7 @@ const targetSchema = schema({
 
 const sut = new SchemaValidator(targetSchema);
 
-describe("Testing Schema Validator", () => {
+await describe("Testing Schema Validator", () => {
   it("should validate an valid schema", () => {
     expect(sut.validate({
       name: "John Doe",

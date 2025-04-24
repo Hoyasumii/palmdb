@@ -2,7 +2,7 @@ import { describe } from "@/global/test";
 import { Coconut } from "./coconut";
 import { beforeEach, expect, it } from "vitest";
 
-describe("Testing Coconut Lock", () => {
+await describe("Testing Coconut Lock", () => {
 	let sut: Coconut;
 
 	beforeEach(() => {
