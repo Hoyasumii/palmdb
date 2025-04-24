@@ -10,6 +10,7 @@ type CollectionRepositoryConstructorProperties<
   items: Record<string, Entity<EntityType>>;
   schema: BaseSchema<Keys, Schema>;
   validator: SchemaValidator<Keys, Schema, EntityType>;
+  collectionName: string;
 };
 
 export class CollectionRepository<
@@ -20,16 +21,19 @@ export class CollectionRepository<
   public items: Record<string, Entity<EntityType>>;
   public schema: BaseSchema<Keys, Schema>;
   public validator: SchemaValidator<Keys, Schema, EntityType>;
+  public collectionName: string;
 
   constructor({
     items,
     schema,
     validator,
+    collectionName
   }: CollectionRepositoryConstructorProperties<Keys, Schema, EntityType>) {
     if (new.target !== CollectionRepository) throw new Error();
 
     this.items = items;
     this.schema = schema;
     this.validator = validator;
+    this.collectionName = collectionName;
   }
 }
