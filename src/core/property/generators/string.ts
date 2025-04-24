@@ -1,4 +1,5 @@
 import { PropertyBase } from "../property-base";
+import type { InferPropertyType } from "../types";
 
 type PropertyBaseConstructorProps = Partial<
   Pick<PropertyBase<"string">, "nullable" | "unique">
@@ -17,3 +18,7 @@ export function string<IsNullable extends boolean = boolean>(
 ): PropertyBase<"string", IsNullable> {
   return new PropertyBase<"string", IsNullable>({ type: "string", ...props });
 }
+
+const name = string({ nullable: true});
+
+type InferName = InferPropertyType<typeof name>

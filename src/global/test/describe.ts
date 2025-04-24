@@ -1,4 +1,4 @@
-import settingProcessPalm from "@/setting-palm-process";
+import settingProcessPalm from "@/setting-palm-for-test";
 import { describe as vitestDescribe } from "vitest";
 
 /**
@@ -16,6 +16,6 @@ import { describe as vitestDescribe } from "vitest";
  * ```
  */
 export function describe(name: string, fn: () => void) {
-	settingProcessPalm("");
+	settingProcessPalm({ secret: "" });
 	vitestDescribe(name, fn);
 }
