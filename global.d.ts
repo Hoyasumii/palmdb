@@ -1,16 +1,16 @@
-import type { Cache } from "@/core/sea";
+import type { Sea } from "@/core/sea";
 
 declare global {
   interface Palm {
     coconut: Coconut;
-    cache?: Sea;
+    cache: Sea;
     info: {
       currDir: string;
       dbFolderPath: string;
       secret: string;
     };
-    randomUUID?: () => string;
-    save?: () => Promise<void>;
+    randomUUID: () => string;
+    save: (path: string, data: string) => Promise<string>;
   }
 
   var palm: Palm;
