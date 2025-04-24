@@ -12,7 +12,7 @@ describe("Testing Node.js FS Provider", () => {
 
 	it("should touch a file", async () => {
 		await expect(sut.touch("file.txt")).resolves.toBe(
-			join(process.palm.currDir, "file.txt"),
+			join(global.palm.info.currDir, "file.txt"),
 		);
 
 		await sut.rm("file.txt");

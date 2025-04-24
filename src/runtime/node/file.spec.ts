@@ -13,7 +13,7 @@ describe("Testing Node.js File Provider", () => {
 
 	it("should write a New File", async () => {
 		await expect(sut.write("doc.txt", "Hello World")).resolves.toBe(
-			`${join(process.palm.currDir, "doc.txt")}`,
+			`${join(global.palm.info.currDir, "doc.txt")}`,
 		);
 
 		await rm("doc.txt");

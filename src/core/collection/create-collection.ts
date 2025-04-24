@@ -1,7 +1,16 @@
+import { randomUUID } from "node:crypto";
+import { Coconut } from "../coconut";
 import { Entity } from "../entity";
+import { string } from "../property";
 import type { PropertyBase } from "../property/property-base";
-import type { BaseSchema, InferSchema } from "../schema";
-import type { CollectionRepository } from "./collection-repository";
+import {
+  schema,
+  SchemaValidator,
+  type BaseSchema,
+  type InferSchema,
+} from "../schema";
+import { getUniqueProperties } from "../schema/get-unique-properties";
+import { CollectionRepository } from "./collection-repository";
 import type { CreateCollectionInterface } from "./types/create-collection-interface";
 
 export class CreateCollection<
@@ -10,7 +19,31 @@ export class CreateCollection<
   EntityType extends InferSchema<BaseSchema<Keys, Schema>>
 > implements CreateCollectionInterface<EntityType>
 {
-  constructor(private readonly repository: CollectionRepository<Keys, Schema, EntityType>) {}
+  constructor(
+    private readonly repository: CollectionRepository<Keys, Schema, EntityType>
+  ) {}
+
+  private checkEntityExistenceByUniqueProperty(data: EntityType): boolean {
+    const targetEntityUniqueProperties = getUniqueProperties(
+      this.repository.schema
+    );
+
+    for (const property of targetEntityUniqueProperties) {
+      const targetProperty = data[
+        property as keyof EntityType
+      ] as unknown as EntityType[Keys];
+
+      if (
+        JSON.stringify(targetProperty) in
+        this.repository.cache[property as Keys]
+      )
+        return true;
+    }
+
+    return false;
+  }
+
+  private registerUniquePropertiesAtCache() {}
 
   async create(data: EntityType): Promise<string> {
     await this.repository.coconut.letMeKnowWhenAvailable();
@@ -26,7 +59,10 @@ export class CreateCollection<
       throw new Error();
     }
 
-		// TODO: Verificar se existe alguma propriedade única que já teve registo no Database -> O(n*m)
+    if (this.checkEntityExistenceByUniqueProperty(data)) throw new Error();
+    // this.repository.cache[]
+
+    this.repository.cache
 
     this.repository.items[itemId] = new Entity<EntityType>({
       id: itemId,
@@ -39,3 +75,26 @@ export class CreateCollection<
     return itemId;
   }
 }
+
+const accountSchema = schema({
+  name: string({ unique: true }),
+});
+
+const repo = new CollectionRepository(
+  {},
+  {
+    name: {},
+  },
+  accountSchema,
+  new SchemaValidator(accountSchema),
+  () => randomUUID(),
+  async () => {}
+);
+
+const service = new CreateCollection(repo);
+
+console.log(
+  await service.create({
+    name: "Alan",
+  })
+);

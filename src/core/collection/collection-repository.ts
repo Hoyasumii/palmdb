@@ -1,20 +1,35 @@
 import type { BaseSchema, InferSchema, SchemaValidator } from "@/core/schema";
 import type { PropertyBase } from "@/core/property/property-base";
-import type { Coconut, Entity } from "@/core";
+import type { Entity } from "@/core";
+
+type CollectionRepositoryConstructorProperties<
+  Keys extends string,
+  Schema extends Record<Keys, PropertyBase>,
+  EntityType extends InferSchema<BaseSchema<Keys, Schema>>
+> = {
+  items: Record<string, Entity<EntityType>>;
+  schema: BaseSchema<Keys, Schema>;
+  validator: SchemaValidator<Keys, Schema, EntityType>;
+};
 
 export class CollectionRepository<
   Keys extends string,
   Schema extends Record<Keys, PropertyBase>,
   EntityType extends InferSchema<BaseSchema<Keys, Schema>>
 > {
-  constructor(
-    public items: Record<string, Entity<EntityType>>,
-    public coconut: Coconut,
-    public schema: EntityType,
-    public validator: SchemaValidator<Keys, Schema, EntityType>,
-    public randomUUID: () => string,
-    public save: () => Promise<void>
-  ) {
+  public items: Record<string, Entity<EntityType>>;
+  public schema: BaseSchema<Keys, Schema>;
+  public validator: SchemaValidator<Keys, Schema, EntityType>;
+
+  constructor({
+    items,
+    schema,
+    validator,
+  }: CollectionRepositoryConstructorProperties<Keys, Schema, EntityType>) {
     if (new.target !== CollectionRepository) throw new Error();
+
+    this.items = items;
+    this.schema = schema;
+    this.validator = validator;
   }
 }
