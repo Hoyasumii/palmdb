@@ -1,6 +1,7 @@
 import { it, expect, afterAll, beforeEach } from "vitest";
 import { Provider } from "./provider";
 import { describe } from "@/global/test";
+import { PathNotFoundError } from "@/errors";
 
 await describe("Testing Bun Provider", () => {
 	let sut: Provider;
@@ -26,4 +27,8 @@ await describe("Testing Bun Provider", () => {
 
 		expect(targetUUID).toBeDefined();
 	});
+
+	it("should gives an PathNotFoundError to get a inexistent file", async () => {
+			await expect(sut.get("blibli.txt")).rejects.toBeInstanceOf(PathNotFoundError);
+		})
 });

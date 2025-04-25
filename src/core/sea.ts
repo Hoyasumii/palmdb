@@ -14,7 +14,7 @@ export class Sea {
   }
 
   private genCollection(collectionName: string) {
-    if (!collectionName) {
+    if (!this.items[collectionName]) {
       this.setCollection(collectionName);
     }
   }

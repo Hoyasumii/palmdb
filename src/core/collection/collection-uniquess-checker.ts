@@ -22,7 +22,7 @@ export class CollectionUniquenessChecker<
     this.collectionPath = collectionPath;
   }
 
-  private propertyIsRepeated(property: string, value: string): boolean {
+  propertyIsRepeated(property: string, value: string): boolean {
     return global.palm.cache.exists(
       `${this.collectionPath}/${property}/${value}`
     );
@@ -33,7 +33,10 @@ export class CollectionUniquenessChecker<
     const entityEntries = Object.entries(entity);
 
     for (const [key, value] of entityEntries) {
-      if (!(key in this.uniqueProperties)) continue;
+      if (
+        !this.uniqueProperties.find((uniqueProperty) => uniqueProperty === key)
+      )
+        continue;
 
       if (this.propertyIsRepeated(key, value as string)) {
         returnValue = false;
