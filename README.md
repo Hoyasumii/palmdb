@@ -8,3 +8,5 @@ Para devolver os dados à coleção, você pode converter esse csv para um objet
 Collections -> Entities
 
 Collection -> Schema -> Propperty
+
+testando
