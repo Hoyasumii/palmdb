@@ -2,6 +2,7 @@ import type { BaseSchema, InferSchema, SchemaValidator } from "@/core/schema";
 import type { PropertyBase } from "@/core/property/property-base";
 import type { Entity } from "@/core";
 import { join } from "node:path";
+import { CollectionRepositoryCannotBeExtendedError } from "@/errors";
 
 type CollectionRepositoryConstructorProperties<
   Keys extends string,
@@ -31,7 +32,7 @@ export class CollectionRepository<
     validator,
     collectionName,
   }: CollectionRepositoryConstructorProperties<Keys, Schema, EntityType>) {
-    if (new.target !== CollectionRepository) throw new Error();
+    if (new.target !== CollectionRepository) throw new CollectionRepositoryCannotBeExtendedError();
 
     this.items = items;
     this.schema = schema;

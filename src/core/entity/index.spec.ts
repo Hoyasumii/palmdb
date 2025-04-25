@@ -7,7 +7,7 @@ type User = {
 	name: string;
 };
 
-describe("Testing Entity", () => {
+await describe("Testing Entity", () => {
 	let sut: Entity<User>;
 
 	beforeEach(async () => {

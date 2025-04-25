@@ -2,7 +2,7 @@ import { describe } from "@/global/test";
 import { expect, it } from "vitest";
 import { boolean } from "./boolean";
 
-describe("Testing Boolean Generator for Property Base", () => {
+await describe("Testing Boolean Generator for Property Base", () => {
   it("should create a property", () => {
     const newProperty = boolean({ });
 

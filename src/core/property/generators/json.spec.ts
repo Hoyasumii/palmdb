@@ -2,7 +2,7 @@ import { describe } from "@/global/test";
 import { expect, it } from "vitest";
 import { json } from "./json";
 
-describe("Testing JSON Generator for Property Base", () => {
+await describe("Testing JSON Generator for Property Base", () => {
   it("should create a property", () => {
     const newProperty = json({ });
 

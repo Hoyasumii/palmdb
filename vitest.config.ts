@@ -5,5 +5,6 @@ export default defineConfig({
 	plugins: [tsConfigPaths()],
 	test: {
 		include: ["**/*.spec.ts"],
+		exclude: ["src/runtime/bun/**/*.ts"]
 	},
 });

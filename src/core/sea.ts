@@ -1,3 +1,5 @@
+import { EntityExistsError } from "@/errors";
+
 export class Sea {
   private items: Record<string, Record<string, Record<string, null>>> = {};
 
@@ -12,8 +14,14 @@ export class Sea {
   }
 
   private genCollection(collectionName: string) {
-    if (!collectionName) {
+    if (!this.items[collectionName]) {
       this.setCollection(collectionName);
+    }
+  }
+
+  private genProperty(collectionName: string, propertyName: string) {
+    if (!this.items[collectionName][propertyName]) {
+      this.items[collectionName][propertyName] = {};
     }
   }
 
@@ -21,12 +29,9 @@ export class Sea {
     const [collection, property] = path.split("/");
 
     this.genCollection(collection);
+    this.genProperty(collection, property);
 
-    if (!property) {
-      this.items[collection][property] = {};
-    }
-
-    if (this.exists(`${path}/${key}`)) throw new Error();
+    if (this.exists(`${path}/${key}`)) throw new EntityExistsError();
 
     this.items[collection][property][key] = null;
   }
@@ -35,6 +40,7 @@ export class Sea {
     const [collection, property, key] = path.split("/");
 
     this.genCollection(collection);
+    this.genProperty(collection, property);
 
     if (key in this.items[collection][property]) return true;
 

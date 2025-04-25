@@ -3,7 +3,7 @@ import { expect, it } from "vitest";
 import { propertyValidator } from "./property-validator";
 import { array, boolean, date, json, number, string } from "./generators";
 
-describe("Testing Property Validator", () => {
+await describe("Testing Property Validator", () => {
   it("should approve null to be a <Unknown Nullable Property>", () => {
     expect(propertyValidator(string({ nullable: true }), null)).toBeTruthy();
   });

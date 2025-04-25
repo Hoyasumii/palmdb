@@ -2,7 +2,7 @@ import { describe } from "@/global/test";
 import { expect, it } from "vitest";
 import { date } from "./date";
 
-describe("Testing Date Generator for Property Base", () => {
+await describe("Testing Date Generator for Property Base", () => {
   it("should create a property", () => {
     const newProperty = date({ });
 

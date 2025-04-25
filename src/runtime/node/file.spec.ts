@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { rm } from "node:fs/promises";
 import { describe } from "@/global/test";
 
-describe("Testing Node.js File Provider", () => {
+await describe("Testing Node.js File Provider", () => {
 	let sut: File;
 
 	beforeEach(() => {

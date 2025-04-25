@@ -9,7 +9,7 @@ const targetSchema = schema({
   email: string({ unique: true }),
 });
 
-describe("Testing Get Unique Properties", () => {
+await describe("Testing Get Unique Properties", () => {
   it("should get unique properties from target schema", () => {
     expect(getUniqueProperties(targetSchema)).toMatchObject(["email"]);
   });
