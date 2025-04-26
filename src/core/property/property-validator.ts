@@ -7,6 +7,7 @@ export function propertyValidator<TargetProperty extends PropertyBase>(
   value: InferPropertyType<TargetProperty>
 ): boolean {
   if (property.nullable === true && !value) return true;
+  if (!value) return false;
 
   if (property.type === "array" && Array.isArray(value)) return true;
   if (property.type === "boolean" && typeof value === "boolean") return true;

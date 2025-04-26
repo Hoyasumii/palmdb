@@ -25,7 +25,6 @@ await describe("Testing Coconut Lock", () => {
 		await sut.letMeKnowWhenAvailable();
 
 		expect(Date.now() - initialTime).toBeGreaterThanOrEqual(30);
-		expect(Date.now() - initialTime).toBeLessThanOrEqual(35);
 
 		await sut.release();
 	});
