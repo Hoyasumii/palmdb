@@ -6,6 +6,7 @@ import type { CollectionRepository } from "./collection-repository";
 import { CollectionUniquenessChecker } from "./collection-uniquess-checker";
 import type { CreateCollectionInterface } from "./types/create-collection-interface";
 import { EntityExistsError, EntityNotMatchWithSchemaError } from "@/errors";
+import { collectionCacheSetter } from "./collection-cache-setter";
 
 export class CreateCollection<
   Keys extends string,
@@ -18,12 +19,15 @@ export class CreateCollection<
     Schema,
     EntityType
   >;
+  private uniqueProperties: Array<string>;
 
   constructor(
     private readonly repository: CollectionRepository<Keys, Schema, EntityType>
   ) {
+    this.uniqueProperties = getUniqueProperties(this.repository.schema);
+
     this.uniquenessChecker = new CollectionUniquenessChecker({
-      uniqueProperties: getUniqueProperties(this.repository.schema),
+      uniqueProperties: this.uniqueProperties,
       collectionPath: this.repository.collectionName,
     });
   }
@@ -55,6 +59,12 @@ export class CreateCollection<
       id: itemId,
       value: data,
     });
+
+    collectionCacheSetter({
+      collection: this.repository.collectionName,
+      uniqueProperties: this.uniqueProperties,
+      value: data as Record<string, string>
+    })
 
     await this.repository.save();
     await global.palm.coconut.release();
