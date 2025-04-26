@@ -1,4 +1,4 @@
-import type { BaseSchema, InferSchema, SchemaValidator } from "@/core/schema";
+import { BaseSchema, InferSchema, SchemaValidator } from "@/core/schema";
 import type { PropertyBase } from "@/core/property/property-base";
 import type { Entity } from "@/core";
 import { join } from "node:path";
@@ -11,7 +11,6 @@ type CollectionRepositoryConstructorProperties<
 > = {
   items: Record<string, Entity<EntityType>>;
   schema: BaseSchema<Keys, Schema>;
-  validator: SchemaValidator<Keys, Schema, EntityType>;
   collectionName: string;
 };
 
@@ -29,14 +28,14 @@ export class CollectionRepository<
   constructor({
     items,
     schema,
-    validator,
     collectionName,
   }: CollectionRepositoryConstructorProperties<Keys, Schema, EntityType>) {
     if (new.target !== CollectionRepository) throw new CollectionRepositoryCannotBeExtendedError();
-
+    
+    
     this.items = items;
     this.schema = schema;
-    this.validator = validator;
+    this.validator = new SchemaValidator(this.schema);
     this.collectionName = collectionName;
 
     const collectionPath = join(

@@ -22,7 +22,7 @@ export class CollectionUniquenessChecker<
     this.collectionPath = collectionPath;
   }
 
-  propertyIsRepeated(property: string, value: string): boolean {
+  private propertyIsRepeated(property: string, value: string): boolean {
     return global.palm.cache.exists(
       `${this.collectionPath}/${property}/${value}`
     );
