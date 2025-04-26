@@ -1,19 +1,17 @@
 import type { BaseEntity } from "@/core/entity/types";
-import type { OperationCost } from "@/global/types";
+import type { OperationCost, Queryable } from "@/global/types";
 
 export interface UpdateCollectionInterface<
   TargetType extends object,
-  Entity extends BaseEntity<TargetType>,
+  Entity extends BaseEntity<TargetType>
 > {
   unique(id: string, data: Partial<TargetType>): Promise<Entity>;
   unique(id: string, data: (target: TargetType) => TargetType): Promise<Entity>;
 
   many(
-    where: (target: Entity) => boolean,
-    data: Partial<TargetType>,
+    query: Queryable<TargetType, Entity, true, true>
   ): Promise<Required<OperationCost<Array<Entity>>>>;
   many(
-    where: (target: Entity) => boolean,
-    data: (target: TargetType) => TargetType,
+    query: Queryable<TargetType, Entity, true, false>
   ): Promise<Required<OperationCost<Array<Entity>>>>;
 }

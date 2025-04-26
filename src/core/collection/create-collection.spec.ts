@@ -56,12 +56,12 @@ await describe("Testing Create Collection", () => {
     ).rejects.toBeInstanceOf(EntityExistsError);
   });
 
-  // TODO: Resolver esse teste
   it("should not create an entity with invalid schema", async () => {
-    await expect(sut.create({
-      name: faker.person.fullName(),
-      email: null as never,
-    })).rejects.toBeTypeOf("object");
-
-  })
+    await expect(
+      sut.create({
+        name: faker.person.fullName(),
+        email: null as never,
+      })
+    ).rejects.instanceOf(EntityNotMatchWithSchemaError);
+  });
 });

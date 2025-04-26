@@ -52,8 +52,10 @@ export class CreateCollection<
       throw new EntityNotMatchWithSchemaError();
     }
 
-    if (!this.uniquenessChecker.entityIsUnique(data))
+    if (!this.uniquenessChecker.entityIsUnique(data)) {
+      await global.palm.coconut.release();
       throw new EntityExistsError();
+    }
 
     this.repository.items[itemId] = new Entity<EntityType>({
       id: itemId,

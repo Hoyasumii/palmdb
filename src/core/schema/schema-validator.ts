@@ -22,8 +22,6 @@ export class SchemaValidator<
   }
 
   validate(entity: EntityType) {
-    let returnType = true;
-
     for (const [key, value] of Object.entries(entity)) {
       if (
         !this.propertyIsMatching(
@@ -31,9 +29,9 @@ export class SchemaValidator<
           value as EntityType[keyof Schema]
         )
       )
-        returnType = false;
+        return false;
     }
 
-    return returnType;
+    return true;
   }
 }
