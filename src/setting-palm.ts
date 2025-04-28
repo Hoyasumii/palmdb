@@ -18,7 +18,7 @@ export default async ({ secret, testing }: SettingPalmProperties) => {
     cache: new Sea(),
     coconut: new Coconut(),
     info: {
-      currDir: process.env.PWD || "",
+      currDir: process.cwd(),
       dbFolderPath: ".palm",
       secret,
     },
