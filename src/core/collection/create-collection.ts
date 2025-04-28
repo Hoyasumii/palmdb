@@ -43,17 +43,14 @@ export class CreateCollection<
   }
 
   async create(data: EntityType): Promise<string> {
-    await global.palm.coconut.letMeKnowWhenAvailable();
 
     const itemId = this.generateUUID();
 
     if (!this.repository.validator.validate(data)) {
-      await global.palm.coconut.release();
       throw new EntityNotMatchWithSchemaError();
     }
 
     if (!this.uniquenessChecker.entityIsUnique(data)) {
-      await global.palm.coconut.release();
       throw new EntityExistsError();
     }
 
@@ -69,7 +66,7 @@ export class CreateCollection<
     })
 
     await this.repository.save();
-    await global.palm.coconut.release();
+    global.palm.coconut.release();
 
     return itemId;
   }

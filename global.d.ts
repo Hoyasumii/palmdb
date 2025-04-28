@@ -1,4 +1,5 @@
 import type { Sea } from "@/core/sea";
+import type { Coconut } from "@/core/coconut";
 
 declare global {
   interface Palm {

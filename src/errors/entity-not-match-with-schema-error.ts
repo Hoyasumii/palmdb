@@ -1,5 +1,10 @@
-export class EntityNotMatchWithSchemaError extends Error {
+import { BaseError } from "./base-error";
+
+export class EntityNotMatchWithSchemaError extends BaseError {
   constructor() {
-    super("Entity not Match With Schema Error");
+    super({
+      errorName: EntityNotMatchWithSchemaError.name,
+      message: "Entity not Match With Schema Error",
+    });
   }
 }

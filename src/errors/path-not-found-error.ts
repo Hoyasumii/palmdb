@@ -1,5 +1,10 @@
-export class PathNotFoundError extends Error {
+import { BaseError } from "./base-error";
+
+export class PathNotFoundError extends BaseError {
   constructor() {
-    super("Path Not Found Error");
+    super({
+      errorName: PathNotFoundError.name,
+      message: "Path Not Found Error",
+    });
   }
 }
