@@ -18,7 +18,7 @@ export class Coconut {
     });
   }
 
-  public async release() {
+  public release(): void {
     this.running = false;
     const next = this.queue.shift();
     if (next) next();

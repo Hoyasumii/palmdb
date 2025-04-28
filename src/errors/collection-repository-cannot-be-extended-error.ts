@@ -1,5 +1,10 @@
-export class CollectionRepositoryCannotBeExtendedError extends Error {
+import { BaseError } from "./base-error";
+
+export class CollectionRepositoryCannotBeExtendedError extends BaseError {
   constructor() {
-    super("Collection Repository Cannot be Extended Error");
+    super({
+      errorName: CollectionRepositoryCannotBeExtendedError.name,
+      message: "Collection Repository Cannot be Extended Error",
+    });
   }
 }
