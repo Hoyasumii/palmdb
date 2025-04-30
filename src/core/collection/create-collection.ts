@@ -43,7 +43,7 @@ export class CreateCollection<
   }
 
   async create(data: EntityType): Promise<string> {
-
+    await global.palm.request.acquire();
     const itemId = this.generateUUID();
 
     if (!this.repository.validator.validate(data)) {
@@ -62,11 +62,11 @@ export class CreateCollection<
     collectionCacheSetter({
       collection: this.repository.collectionName,
       uniqueProperties: this.uniqueProperties,
-      value: data as Record<string, string>
-    })
+      value: data as Record<string, string>,
+    });
 
     await this.repository.save();
-    global.palm.coconut.release();
+    global.palm.request.release();
 
     return itemId;
   }

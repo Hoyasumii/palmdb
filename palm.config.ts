@@ -1,19 +1,18 @@
-import { defineCollection, definePalmConfig } from "@/utils";
-import { z } from "zod";
+// import { defineCollection, definePalmConfig } from "@/utils";
 
-const config = definePalmConfig({
-	secret: "",
-	collections: {
-		account: defineCollection({
-			schema: z.object({
-				name: z.string(),
-				email: z.string().email(),
-			}),
-			rules: {
-				uniqueKeys: ["email"],
-			},
-		}),
-	},
-});
+// const config = definePalmConfig({
+// 	secret: "",
+// 	collections: {
+// 		account: defineCollection({
+// 			schema: z.object({
+// 				name: z.string(),
+// 				email: z.string().email(),
+// 			}),
+// 			rules: {
+// 				uniqueKeys: ["email"],
+// 			},
+// 		}),
+// 	},
+// });
 
-export default config;
+// export default config;

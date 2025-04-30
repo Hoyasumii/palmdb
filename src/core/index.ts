@@ -1,3 +1,3 @@
-export { Coconut } from "./coconut";
+export { ResourceRequester } from "./resource-requester";
 export { Entity } from "./entity";
-export { Sea } from "./sea";
+export { Cache } from "./cache";

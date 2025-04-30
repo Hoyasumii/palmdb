@@ -1,8 +1,8 @@
-export class Coconut {
+export class ResourceRequester {
   private queue: Array<() => void> = [];
   public running = false;
 
-  public async letMeKnowWhenAvailable(): Promise<true> {
+  public async acquire(): Promise<true> {
     return new Promise<true>((resolve) => {
       const tryRun = () => {
         if (!this.running) {

@@ -1,10 +1,10 @@
-import type { Sea } from "@/core/sea";
-import type { Coconut } from "@/core/coconut";
+import type { Cache } from "@/core/cache";
+import type { ResourceRequester } from "@/core/resource-requester";
 
 declare global {
   interface Palm {
-    coconut: Coconut;
-    cache: Sea;
+    request: ResourceRequester;
+    cache: Cache;
     info: {
       currDir: string;
       dbFolderPath: string;
