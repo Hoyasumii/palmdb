@@ -21,7 +21,6 @@ let sut: CreateCollection<Keys, Schema, EntityType>;
 await describe("Testing Create Collection", () => {
   beforeEach(() => {
     repo = new CollectionRepository({
-      items: {},
       collectionName: "account",
       schema: schema({
         name: string({}),
