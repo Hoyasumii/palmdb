@@ -49,6 +49,7 @@ export class CollectionRepository<
     // TODO: Atribua a items
 
     this.save = async () => {
+      // TODO: Criar um ajuste no palm.save para serializar todos os itens de hash
       await global.palm.save(
         collectionPath,
         JSON.stringify(this.store.serializedHash, null, 2)

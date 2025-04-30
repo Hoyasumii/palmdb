@@ -12,9 +12,9 @@ export interface BaseCollection<
 
 	create: CreateCollectionInterface<TargetType>;
 
-	find: FindCollectionInterface<TargetType, Entity>;
+	// find: FindCollectionInterface<TargetType, Entity>;
 
-	update: UpdateCollectionInterface<TargetType, Entity>;
+	// update: UpdateCollectionInterface<TargetType, Entity>;
 
-	delete: DeleteCollectionInterface<TargetType, Entity>;
+	// delete: DeleteCollectionInterface<TargetType, Entity>;
 }
