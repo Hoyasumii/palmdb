@@ -35,7 +35,7 @@ export class CreateCollection<
   private generateUUID(): string {
     let itemId = global.palm.randomUUID();
 
-    while (itemId in this.repository.items) {
+    while (itemId in this.repository.store.hash) {
       itemId = global.palm.randomUUID();
     }
 
@@ -54,10 +54,14 @@ export class CreateCollection<
       throw new EntityExistsError();
     }
 
-    this.repository.items[itemId] = new Entity<EntityType>({
+    const newEntity = new Entity<EntityType>({
       id: itemId,
       value: data,
     });
+
+    this.repository.store.hash[itemId] = newEntity;
+    this.repository.store.serializedHash[itemId] = newEntity.value;
+    this.repository.store.iter.push(newEntity);
 
     collectionCacheSetter({
       collection: this.repository.collectionName,

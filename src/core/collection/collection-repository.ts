@@ -1,15 +1,13 @@
 import { BaseSchema, InferSchema, SchemaValidator } from "@/core/schema";
 import type { PropertyBase } from "@/core/property/property-base";
-import type { Entity } from "@/core";
 import { join } from "node:path";
 import { CollectionRepositoryCannotBeExtendedError } from "@/errors";
+import { Store } from "@/global/types";
 
 type CollectionRepositoryConstructorProperties<
   Keys extends string,
-  Schema extends Record<Keys, PropertyBase>,
-  EntityType extends InferSchema<BaseSchema<Keys, Schema>>
+  Schema extends Record<Keys, PropertyBase>
 > = {
-  items: Record<string, Entity<EntityType>>;
   schema: BaseSchema<Keys, Schema>;
   collectionName: string;
 };
@@ -19,21 +17,23 @@ export class CollectionRepository<
   Schema extends Record<Keys, PropertyBase>,
   EntityType extends InferSchema<BaseSchema<Keys, Schema>>
 > {
-  public items: Record<string, Entity<EntityType>>;
+  public store: Store<Keys, Schema, EntityType> = {
+    hash: {},
+    serializedHash: {},
+    iter: [],
+  };
   public schema: BaseSchema<Keys, Schema>;
   public validator: SchemaValidator<Keys, Schema, EntityType>;
   public collectionName: string;
   public save: () => Promise<void>;
 
   constructor({
-    items,
     schema,
     collectionName,
-  }: CollectionRepositoryConstructorProperties<Keys, Schema, EntityType>) {
-    if (new.target !== CollectionRepository) throw new CollectionRepositoryCannotBeExtendedError();
-    
-    
-    this.items = items;
+  }: CollectionRepositoryConstructorProperties<Keys, Schema>) {
+    if (new.target !== CollectionRepository)
+      throw new CollectionRepositoryCannotBeExtendedError();
+
     this.schema = schema;
     this.validator = new SchemaValidator(this.schema);
     this.collectionName = collectionName;
@@ -43,14 +43,16 @@ export class CollectionRepository<
       `${collectionName}.json`
     );
 
+    // TODO: Criar um Store Builder e associar a this.store
     // TODO: Verificar se o arquivo existe, senão, crie-o
     // TODO: Caso o arquivo exista: Deserialize -> valide-o
     // TODO: Atribua a items
 
     this.save = async () => {
+      // TODO: Criar um ajuste no palm.save para serializar todos os itens de hash
       await global.palm.save(
         collectionPath,
-        JSON.stringify(this.items, null, 2)
+        JSON.stringify(this.store.serializedHash, null, 2)
       );
     };
   }
