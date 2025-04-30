@@ -1,9 +1,9 @@
-import { Coconut, Sea } from "./core";
+import { ResourceRequester, Cache } from "./core";
 import { isNodeOrBun } from "./global/utils";
 
 type SettingPalmProperties = {
   secret: string;
-  testing?: boolean
+  testing?: boolean;
 };
 
 export default async ({ secret, testing }: SettingPalmProperties) => {
@@ -15,8 +15,8 @@ export default async ({ secret, testing }: SettingPalmProperties) => {
       : (await import("./runtime/bun")).default;
 
   global.palm = {
-    cache: new Sea(),
-    coconut: new Coconut(),
+    cache: new Cache(),
+    request: new ResourceRequester(),
     info: {
       currDir: process.cwd(),
       dbFolderPath: ".palm",

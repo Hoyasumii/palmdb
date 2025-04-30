@@ -1,6 +1,6 @@
 import { EntityExistsError } from "@/errors";
 
-export class Sea {
+export class Cache {
   private items: Record<string, Record<string, Record<string, null>>> = {};
 
   constructor(...target: Array<string>) {

@@ -1,8 +1,8 @@
 import { describe } from "@/global/test";
 import { expect, it } from "vitest";
-import { Sea } from "./sea";
+import { Cache } from "./cache";
 
-const sut = new Sea("account");
+const sut = new Cache("account");
 
 await describe("Testing Sea Cache", () => {
   it("Check if inexistent item exists", () => {
