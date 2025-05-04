@@ -129,4 +129,21 @@ await describe("Testing Find Collection", () => {
       expect(targetPage).toMatchObject(targetEntityPage.data);
     }
   });
+
+  it("should count 5 filtered entities with same name", async () => {
+    const targetName = faker.person.fullName();
+
+    for (let index = 0; index < 5; index++) {
+      await createCollectionSUT.create({
+        name: targetName,
+        email: faker.internet.email(),
+      });
+    }
+
+    const countMany = await sut.countMany({
+      where: (entity) => entity.name === targetName,
+    });
+
+    expect(countMany.data).toBe(5);
+  });
 });

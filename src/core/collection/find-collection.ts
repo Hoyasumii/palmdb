@@ -1,12 +1,13 @@
 import { BaseEntity } from "@/core/entity/types";
 import { FindCollectionInterface } from "./types/find-collection-interface";
-import { Queryable, OperationCost } from "@/global/types";
+import { OperationCost } from "@/global/types";
+import { FindQueryable } from "@/global/types/queryable";
 import { CollectionRepository } from "./collection-repository";
 import { PropertyBase } from "../property/property-base";
 import { BaseSchema, InferSchema } from "../schema";
 import {
-  LimitMustBeGreatherThanZeroError,
-  PageMustBeGreatherThanZeroError,
+  LimitMustBeGreaterThanZeroError,
+  PageMustBeGreaterThanZeroError,
   ResourceNotFoundError,
 } from "@/errors";
 
@@ -32,18 +33,16 @@ export class FindCollection<
     return this.repository.store.hash[id].value;
   }
 
-  async many(
-    query: Queryable<EntityType, BaseEntity<EntityType>, false, false>
-  ) {
+  async many(query: FindQueryable<EntityType, BaseEntity<EntityType>, "many">) {
     await global.palm.request.acquire();
     const initialTime = Date.now();
 
-    query.page = !query.page ? 0 : query.page;
+    query.page ??= 0;
 
     const { where, limit, page } = query;
 
-    if (page && page <= 0) throw new PageMustBeGreatherThanZeroError();
-    if (limit && limit <= 0) throw new LimitMustBeGreatherThanZeroError();
+    if (page && page <= 0) throw new PageMustBeGreaterThanZeroError();
+    if (limit && limit <= 0) throw new LimitMustBeGreaterThanZeroError();
 
     let count = 0;
     const desiredItems: BaseEntity<EntityType>[] = [];
@@ -59,27 +58,29 @@ export class FindCollection<
 
     global.palm.request.release();
 
+    const timing = Date.now() - initialTime;
+
     if (
-      limit !== undefined &&
-      page !== undefined &&
-      parseInt(`${limit}`) >= 0 &&
-      parseInt(`${page}`) >= 0
+      typeof limit === "number" &&
+      typeof page === "number" &&
+      limit >= 0 &&
+      page >= 0
     ) {
       return {
-        timing: Date.now() - initialTime,
+        timing,
         data: desiredItems.slice(page * limit, limit * (page + 1)),
       };
     }
 
     return {
-      timing: Date.now() - initialTime,
+      timing,
       data: desiredItems,
     };
   }
 
   async countMany(
     query: Pick<
-      Queryable<EntityType, BaseEntity<EntityType>, false, false>,
+      FindQueryable<EntityType, BaseEntity<EntityType>, "many">,
       "where"
     >
   ): Promise<Omit<OperationCost<number>, "affectedItems">> {

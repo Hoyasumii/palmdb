@@ -43,9 +43,7 @@ export class CollectionRepository<
       `${collectionName}.json`
     );
 
-    // TODO: Criar um Store Builder e associar a this.store
     // TODO: Verificar se o arquivo existe, senão, crie-o
-    // TODO: Caso o arquivo exista: Deserialize -> valide-o
     // TODO: Atribua a items
 
     this.save = async () => {

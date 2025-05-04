@@ -1,9 +1,9 @@
 import { BaseError } from "./base-error";
 
-export class LimitMustBeGreatherThanZeroError extends BaseError {
+export class LimitMustBeGreaterThanZeroError extends BaseError {
   constructor() {
     super({
-      errorName: LimitMustBeGreatherThanZeroError.name,
+      errorName: LimitMustBeGreaterThanZeroError.name,
       message: "Limit Must Be Greather Than Zero Error",
     });
   }
