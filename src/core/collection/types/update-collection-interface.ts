@@ -1,17 +1,26 @@
 import type { BaseEntity } from "@/core/entity/types";
-import type { OperationCost, Queryable } from "@/global/types";
+import { PropertyBase } from "@/core/property/property-base";
+import { BaseSchema, InferSchema } from "@/core/schema";
+import type { OperationCost } from "@/global/types";
+import { UpdateQueryable } from "@/global/types/queryable";
 
 export interface UpdateCollectionInterface<
-  TargetType extends object,
-  Entity extends BaseEntity<TargetType>
+  Keys extends string,
+  Schema extends Record<Keys, PropertyBase>,
+  EntityType extends InferSchema<BaseSchema<Keys, Schema>>,
+  Entity extends BaseEntity<EntityType>
 > {
-  unique(id: string, data: Partial<TargetType>): Promise<Entity>;
-  unique(id: string, data: (target: TargetType) => TargetType): Promise<Entity>;
+  unique(
+    query: UpdateQueryable<EntityType, Entity, "unique", "update-partial">
+  ): Promise<Entity>;
+  unique(
+    query: UpdateQueryable<EntityType, Entity, "unique", "update-function">
+  ): Promise<Entity>;
 
   many(
-    query: Queryable<TargetType, Entity, true, true>
+    query: UpdateQueryable<EntityType, Entity, "many", "update-partial">
   ): Promise<Required<OperationCost<Array<Entity>>>>;
   many(
-    query: Queryable<TargetType, Entity, true, false>
+    query: UpdateQueryable<EntityType, Entity, "many", "update-function">
   ): Promise<Required<OperationCost<Array<Entity>>>>;
 }

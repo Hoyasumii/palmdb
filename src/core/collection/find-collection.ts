@@ -1,6 +1,7 @@
 import { BaseEntity } from "@/core/entity/types";
 import { FindCollectionInterface } from "./types/find-collection-interface";
-import { Queryable, OperationCost } from "@/global/types";
+import { OperationCost } from "@/global/types";
+import { FindQueryable } from "@/global/types/queryable";
 import { CollectionRepository } from "./collection-repository";
 import { PropertyBase } from "../property/property-base";
 import { BaseSchema, InferSchema } from "../schema";
@@ -32,9 +33,7 @@ export class FindCollection<
     return this.repository.store.hash[id].value;
   }
 
-  async many(
-    query: Queryable<EntityType, BaseEntity<EntityType>, false, false>
-  ) {
+  async many(query: FindQueryable<EntityType, BaseEntity<EntityType>, "many">) {
     await global.palm.request.acquire();
     const initialTime = Date.now();
 
@@ -81,7 +80,7 @@ export class FindCollection<
 
   async countMany(
     query: Pick<
-      Queryable<EntityType, BaseEntity<EntityType>, false, false>,
+      FindQueryable<EntityType, BaseEntity<EntityType>, "many">,
       "where"
     >
   ): Promise<Omit<OperationCost<number>, "affectedItems">> {

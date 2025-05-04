@@ -1,7 +1,8 @@
 import type { BaseEntity } from "@/core/entity/types";
 import { PropertyBase } from "@/core/property/property-base";
 import { BaseSchema, InferSchema } from "@/core/schema";
-import type { OperationCost, Queryable } from "@/global/types";
+import type { OperationCost } from "@/global/types";
+import { FindQueryable } from "@/global/types/queryable";
 
 export interface FindCollectionInterface<
   Keys extends string,
@@ -9,11 +10,13 @@ export interface FindCollectionInterface<
   EntityType extends InferSchema<BaseSchema<Keys, Schema>>,
   Entity extends BaseEntity<EntityType>
 > {
-  unique(id: string): Promise<Entity>;
+  unique(
+    query: FindQueryable<EntityType, Entity, "unique">["where"]
+  ): Promise<Entity>;
   many(
-    query: Queryable<EntityType, Entity, false, false>
+    query: FindQueryable<EntityType, Entity, "many">
   ): Promise<Omit<OperationCost<Array<Entity>>, "affectedItems">>;
   countMany(
-    query: Pick<Queryable<EntityType, Entity, false, false>, "where">
+    query: Pick<FindQueryable<EntityType, Entity, "many">, "where">
   ): Promise<Omit<OperationCost<number>, "affectedItems">>;
 }
