@@ -92,8 +92,41 @@ await describe("Testing Find Collection", () => {
     const findManyOperation = await sut.many({
       where: (entity) => entity.name === targetName,
       limit: 5,
+      page: 0,
     });
 
     expect(findManyOperation.data.length).toBe(5);
+  });
+
+  it("should find 20 entities with same name, limit 5 entities per page, and verify if the 4 other pages has continuous data, comparing with an Collection who filtered 20 entities with no limit.", async () => {
+    const targetName = faker.person.fullName();
+
+    for (let index = 0; index < 20; index++) {
+      await createCollectionSUT.create({
+        name: targetName,
+        email: faker.internet.email(),
+      });
+    }
+
+    const allEntitiesWithSameName = await sut.many({
+      where: (entity) => entity.name === targetName,
+    });
+
+    for (let page = 0; page < 4; page++) {
+      const limit = 5;
+
+      const targetEntityPage = await sut.many({
+        where: (entity) => entity.name === targetName,
+        limit,
+        page,
+      });
+
+      const targetPage = allEntitiesWithSameName.data.slice(
+        limit * page,
+        limit * (page + 1)
+      );
+
+      expect(targetPage).toMatchObject(targetEntityPage.data);
+    }
   });
 });

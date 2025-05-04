@@ -38,10 +38,9 @@ export class FindCollection<
     await global.palm.request.acquire();
     const initialTime = Date.now();
 
-    const { where, limit } = query;
-    let { page } = query;
+    query.page = !query.page ? 0 : query.page;
 
-    if (!page) page = 1;
+    const { where, limit, page } = query;
 
     if (page && page <= 0) throw new PageMustBeGreatherThanZeroError();
     if (limit && limit <= 0) throw new LimitMustBeGreatherThanZeroError();
@@ -55,17 +54,20 @@ export class FindCollection<
         count++;
       }
 
-      if (limit && page && count === limit * page) break;
+      if (limit && page && count === limit * (page + 1)) break;
     }
 
     global.palm.request.release();
 
-    if (limit && page) {
-      let initialIndex = page === 1 ? 0 : limit * page - 1;
-
+    if (
+      limit !== undefined &&
+      page !== undefined &&
+      parseInt(`${limit}`) >= 0 &&
+      parseInt(`${page}`) >= 0
+    ) {
       return {
         timing: Date.now() - initialTime,
-        data: desiredItems.slice(initialIndex, limit * page),
+        data: desiredItems.slice(page * limit, limit * (page + 1)),
       };
     }
 
