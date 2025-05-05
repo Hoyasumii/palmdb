@@ -1,6 +1,5 @@
 import type { ProviderInterface } from "@/runtime/types";
 import { randomUUID } from "node:crypto";
-import { posix } from "node:path";
 import { FS } from "./fs";
 import { PathNotFoundError } from "@/errors";
 
@@ -14,7 +13,7 @@ export class Provider implements ProviderInterface {
   }
 
   async save(path: string, data: string) {
-		posix.join()
+
 
     return await this.fs.file.write(path, data);
   }

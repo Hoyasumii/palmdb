@@ -1,7 +1,7 @@
 import { beforeEach, expect, it } from "vitest";
 import { FS } from "./fs";
 import { describe } from "@/global/test";
-import { posix } from "node:path";
+import { join } from "@/global/utils";
 
 await describe("Testing Bun FS Provider", () => {
 	let sut: FS;
@@ -12,7 +12,7 @@ await describe("Testing Bun FS Provider", () => {
 
 	it("should touch a file", async () => {
 		await expect(sut.touch("file.txt")).resolves.toBe(
-			posix.join(global.palm.info.currDir, "file.txt"),
+			join(global.palm.info.currDir, "file.txt"),
 		);
 
 		await sut.rm("file.txt");

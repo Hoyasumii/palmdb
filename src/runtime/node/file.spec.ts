@@ -1,8 +1,8 @@
 import { beforeEach, expect, it } from "vitest";
 import { File } from "./file";
-import { posix } from "node:path";
 import { rm } from "node:fs/promises";
 import { describe } from "@/global/test";
+import { join } from "@/global/utils";
 
 await describe("Testing Node.js File Provider", () => {
 	let sut: File;
@@ -13,7 +13,7 @@ await describe("Testing Node.js File Provider", () => {
 
 	it("should write a New File", async () => {
 		await expect(sut.write("doc.txt", "Hello World")).resolves.toBe(
-			`${posix.join(global.palm.info.currDir, "doc.txt")}`,
+			`${join(global.palm.info.currDir, "doc.txt")}`,
 		);
 
 		await rm("doc.txt");
