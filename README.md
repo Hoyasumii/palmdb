@@ -4,13 +4,14 @@ Caso ocorra algum erro durante a deserialização dos dados para a Entity, o pal
 Caso os dados não coicidam, irá aparecer uma mensagem de erro, a coleção será salva no backup no formato NAME_TIMESTAMP.csv.
 Para devolver os dados à coleção, você pode converter esse csv para um objeto convencional, mas você terá que fazer esse processo sozinho, sem auxílio do PalmDB. O PalmDB não serve para pessoas indecisas, que precisam ficar fazendo migrations a todo momento. Ele é pensado para o pior cenário. Se em seu desenvolvimento, os dados importarem no nível que eles não possam ser removidos, talvez o PalmDB não seja a ferramenta ideal para você.
 
-
 Collections -> Entities
 
 <!-- TODO: Adicionar em algum momento os enums -->
 <!-- TODO: Adicionar em property uma propriedade chamada default -->
 
 Collection -> Schema -> Propperty
+
+```
 
 // palm.config.ts
 await palm.start({
@@ -58,12 +59,12 @@ await palm.start({
       totalPrice: number({ }),
       trackingCode: string({ }),
       status: enum([
-        "PENDING", 
-        "CONFIRMED", 
-        "PROCESSING", 
-        "SHIPPED", 
-        "DELIVERED", 
-        "CANCELLED", 
+        "PENDING",
+        "CONFIRMED",
+        "PROCESSING",
+        "SHIPPED",
+        "DELIVERED",
+        "CANCELLED",
         "RETURNED"
       ]),
     }),
@@ -92,3 +93,5 @@ await usersCollection.find.unique("id");
 
 // Como seria o enum:
 enum([]);
+
+```

@@ -4,6 +4,7 @@ import { CollectionUniquenessChecker } from "./collection-uniquess-checker";
 import { schema, type InferSchema } from "../schema";
 import { string } from "../property";
 import { getUniqueProperties } from "../schema/get-unique-properties";
+import { randomUUID } from "node:crypto";
 
 const accountSchema = schema({
   name: string({}),
@@ -27,7 +28,11 @@ await describe("Testing Collection Uniquess Checker", () => {
   });
 
   it("should return false to a repeated value", () => {
-    global.palm.cache.set("account/email", "genericemail@gmail.com");
+    global.palm.cache.set({
+      path: "account/email",
+      key: "genericemail@gmail.com",
+      id: randomUUID(),
+    });
 
     expect(
       sut.entityIsUnique({ email: "genericemail@gmail.com", name: "Alberto" })

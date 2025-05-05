@@ -65,38 +65,20 @@ export class UpdateCollection<
     const targetEntity = this.repository.store.hash[query.where];
     const iterIndex = this.repository.store.iterIndexed[query.where];
 
-    if (typeof query.data === "function") {
-      if (
-        !this.repository.validator.validate(
-          query.data(query.data(targetEntity.value))
-        )
-      ) {
-        throw new EntityNotMatchWithSchemaError();
-      }
+    const updatedValue =
+      typeof query.data === "function"
+        ? query.data(targetEntity.baseValue)
+        : { ...targetEntity.baseValue, ...query.data };
 
-      // TODO: Adicionar um ignore no entityIsUnique
-      if (!this.uniquenessChecker.entityIsUnique(query.data(targetEntity.value))) {
-        throw new EntityExistsError();
-      }
 
-      this.repository.store.hash[query.where].update(
-        query.data(targetEntity.value)
-      );
+    if (!this.repository.validator.validate(updatedValue))
+      throw new EntityNotMatchWithSchemaError();
 
-      this.repository.store.iter[iterIndex] =
-        this.repository.store.hash[query.where];
-
-      this.repository.store.serializedHash[query.where] =
-        this.repository.store.hash[query.where].value;
-
-      global.palm.request.release();
-      return targetEntity.value;
+    if (!this.uniquenessChecker.entityIsUnique(updatedValue, query.where)) {
+      throw new EntityExistsError();
     }
 
-    this.repository.store.hash[query.where].update({
-      ...targetEntity.value,
-      ...query.data,
-    });
+    this.repository.store.hash[query.where].update(updatedValue);
 
     this.repository.store.iter[iterIndex] =
       this.repository.store.hash[query.where];

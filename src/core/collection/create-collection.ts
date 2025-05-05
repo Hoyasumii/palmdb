@@ -69,6 +69,7 @@ export class CreateCollection<
       collection: this.repository.collectionName,
       uniqueProperties: this.uniqueProperties,
       value: data as Record<string, string>,
+      id: itemId
     });
 
     await this.repository.save();

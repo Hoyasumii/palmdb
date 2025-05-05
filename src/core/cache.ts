@@ -1,7 +1,13 @@
-import { EntityExistsError } from "@/errors";
+import { EntityExistsError, ResourceNotFoundError } from "@/errors";
+
+type CacheSetProperties = {
+  path: string;
+  key: string;
+  id: string;
+};
 
 export class Cache {
-  private items: Record<string, Record<string, Record<string, null>>> = {};
+  private items: Record<string, Record<string, Record<string, string>>> = {};
 
   constructor(...target: Array<string>) {
     for (const item of target) {
@@ -25,7 +31,7 @@ export class Cache {
     }
   }
 
-  public set(path: string, key: string): void {
+  public set({ path, key, id }: CacheSetProperties): void {
     const [collection, property] = path.split("/");
 
     this.genCollection(collection);
@@ -33,7 +39,19 @@ export class Cache {
 
     if (this.exists(`${path}/${key}`)) throw new EntityExistsError();
 
-    this.items[collection][property][key] = null;
+    this.items[collection][property][key] = id;
+  }
+
+  public get(path: string): string {
+    const [collection, property, key] = path.split("/");
+
+    this.genCollection(collection);
+    this.genProperty(collection, property);
+
+    if (!(key in this.items[collection][property]))
+      throw new ResourceNotFoundError();
+
+    return this.items[collection][property][key];
   }
 
   public exists(path: string): boolean {
