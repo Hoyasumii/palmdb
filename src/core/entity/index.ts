@@ -34,7 +34,7 @@ export class Entity<TargetType extends object>
 	}
 
 	update(content: TargetType) {
-		this.data = { ...this.data, _updatedAt: new Date(), ...content };
+		this.data = { ...this.data, ...content, _updatedAt: new Date() };
 	}
 
 	serialize(): [string, string] {

@@ -10,4 +10,5 @@ export interface Store<
   hash: Record<string, Entity<EntityType>>;
   serializedHash: Record<string, EntityType>;
   iter: Array<Entity<EntityType>>;
+  count: number;
 }
