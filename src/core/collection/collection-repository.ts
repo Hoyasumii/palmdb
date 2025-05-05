@@ -21,6 +21,8 @@ export class CollectionRepository<
     hash: {},
     serializedHash: {},
     iter: [],
+    iterIndexed: {},
+    count: 0,
   };
   public schema: BaseSchema<Keys, Schema>;
   public validator: SchemaValidator<Keys, Schema, EntityType>;

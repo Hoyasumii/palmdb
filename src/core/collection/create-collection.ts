@@ -62,6 +62,8 @@ export class CreateCollection<
     this.repository.store.hash[itemId] = newEntity;
     this.repository.store.serializedHash[itemId] = newEntity.value;
     this.repository.store.iter.push(newEntity);
+    this.repository.store.iterIndexed[itemId] = this.repository.store.count;
+    this.repository.store.count++;
 
     collectionCacheSetter({
       collection: this.repository.collectionName,

@@ -9,5 +9,7 @@ export interface Store<
 > {
   hash: Record<string, Entity<EntityType>>;
   serializedHash: Record<string, EntityType>;
+  iterIndexed: Record<string, number>;
   iter: Array<Entity<EntityType>>;
+  count: number;
 }
