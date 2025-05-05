@@ -2,7 +2,7 @@ import { describe } from "@/global/test";
 import {beforeEach, it, expect} from "bun:test";
 import Bun from 'bun';
 import { File } from "./file";
-import { join } from "node:path";
+import { posix } from "node:path";
 
 await describe("Testing Bun File Provider", () => {
 	let sut: File;
@@ -13,7 +13,7 @@ await describe("Testing Bun File Provider", () => {
 
 	it("should write a New File", async () => {
 		expect(sut.write("doc.txt", "Hello World")).resolves.toBe(
-			`${join(global.palm.info.currDir, "doc.txt")}`,
+			`${posix.join(global.palm.info.currDir, "doc.txt")}`,
 		);
 
 		await Bun.file("doc.txt").delete();

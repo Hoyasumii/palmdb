@@ -1,8 +1,9 @@
 import { BaseSchema, InferSchema, SchemaValidator } from "@/core/schema";
 import type { PropertyBase } from "@/core/property/property-base";
-import { join } from "node:path";
+import { join, posix } from "node:path";
 import { CollectionRepositoryCannotBeExtendedError } from "@/errors";
 import { Store } from "@/global/types";
+import { writeFile } from "node:fs/promises";
 
 type CollectionRepositoryConstructorProperties<
   Keys extends string,
@@ -27,7 +28,7 @@ export class CollectionRepository<
   public schema: BaseSchema<Keys, Schema>;
   public validator: SchemaValidator<Keys, Schema, EntityType>;
   public collectionName: string;
-  public save: () => Promise<void>;
+  public save: (id: string, value: Buffer) => Promise<void>;
 
   constructor({
     schema,
@@ -40,20 +41,16 @@ export class CollectionRepository<
     this.validator = new SchemaValidator(this.schema);
     this.collectionName = collectionName;
 
-    const collectionPath = join(
-      global.palm.info.dbFolderPath,
-      `${collectionName}.json`
-    );
-
     // TODO: Verificar se o arquivo existe, senão, crie-o
     // TODO: Atribua a items
 
-    this.save = async () => {
-      // TODO: Criar um ajuste no palm.save para serializar todos os itens de hash
-      await global.palm.save(
-        collectionPath,
-        JSON.stringify(this.store.serializedHash, null, 2)
-      );
+    this.save = async (id, value) => {
+      // const collectionPath = posix.join(
+      //   global.palm.info.dbFolderPath,
+      //   `${collectionName}/${id}.msgpack`
+      // );
+
+      // await writeFile(collectionPath, value);
     };
   }
 }

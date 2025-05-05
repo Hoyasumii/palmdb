@@ -30,7 +30,7 @@ await describe("Testing Create Collection", () => {
     sut = new CreateCollection(repo);
   });
 
-  it("should create an entity in collection", async () => {
+  it.only("should create an entity in collection", async () => {
     await expect(
       sut.create({
         name: faker.person.fullName(),
