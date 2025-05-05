@@ -36,7 +36,7 @@ await describe("Testing Update Collection", () => {
     sut = new UpdateCollection(repo);
   });
 
-  it("Update a unique entity and _updatedAt must be defined", async () => {
+  it("should update a unique entity and _updatedAt must be defined", async () => {
     const entityId = await createSUT.create({
       name: faker.person.fullName(),
       email: faker.internet.email(),
@@ -52,4 +52,6 @@ await describe("Testing Update Collection", () => {
     expect(updatedEntity.name).toBe("Testing Name");
     expect(updatedEntity._updatedAt).toBeDefined();
   });
+
+  it.todo("should update a unique entity and validates a entry");
 });
