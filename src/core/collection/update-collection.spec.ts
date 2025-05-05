@@ -8,6 +8,7 @@ import { FindCollection } from "./find-collection";
 import { UpdateCollection } from "./update-collection";
 import { string } from "../property";
 import { faker } from "@faker-js/faker";
+import { EntityExistsError, EntityNotMatchWithSchemaError } from "@/errors";
 
 type Keys = string;
 type Schema = {
@@ -27,7 +28,7 @@ await describe("Testing Update Collection", () => {
       collectionName: "account",
       schema: schema({
         name: string({}),
-        email: string({}),
+        email: string({ unique: true }),
       }),
     });
 
@@ -53,5 +54,57 @@ await describe("Testing Update Collection", () => {
     expect(updatedEntity._updatedAt).toBeDefined();
   });
 
-  it.todo("should update a unique entity and validates a entry");
+  it("should update a unique entity and validates a entry", async () => {
+    const entityId = await createSUT.create({
+      name: faker.person.fullName(),
+      email: faker.internet.email(),
+    });
+
+    await expect(
+      sut.unique({
+        where: entityId,
+        data: {
+          name: 1 as unknown as string,
+        },
+      })
+    ).rejects.toBeInstanceOf(EntityNotMatchWithSchemaError);
+  });
+
+  it("shouldn't update a unique entity with repeated property at cache", async () => {
+    await createSUT.create({
+      name: faker.person.fullName(),
+      email: "generic@email.com",
+    });
+
+    const entityId = await createSUT.create({
+      name: faker.person.fullName(),
+      email: faker.internet.email(),
+    });
+
+    await expect(
+      sut.unique({
+        where: entityId,
+        data: {
+          email: "generic@email.com",
+        },
+      })
+    ).rejects.toBeInstanceOf(EntityExistsError);
+  });
+
+  it("should update an unique entity with repeated property with an same id", async () => {
+    const entityId = await createSUT.create({
+      name: faker.person.fullName(),
+      email: "generic2@email.com",
+    });
+
+    const updatedEntity = await sut.unique({
+      where: entityId,
+      data: (entity) => ({
+        ...entity,
+        email: "generic2@email.com",
+      }),
+    });
+
+    expect(updatedEntity._updatedAt).toBeDefined();
+  });
 });

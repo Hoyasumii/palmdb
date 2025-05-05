@@ -28,7 +28,7 @@ export class CollectionUniquenessChecker<
     );
   }
 
-  entityIsUnique(entity: EntityType): boolean {
+  entityIsUnique(entity: EntityType, id?: string): boolean {
     let returnValue = true;
     const entityEntries = Object.entries(entity);
 
@@ -39,7 +39,10 @@ export class CollectionUniquenessChecker<
         continue;
 
       if (this.propertyIsRepeated(key, value as string)) {
-        returnValue = false;
+        // console.log(global.palm.cache.get(`${this.collectionPath}/${key}/${value}`))
+        // console.log(id);
+        if (global.palm.cache.get(`${this.collectionPath}/${key}/${value}`) !== id)
+          returnValue = false;
       }
     }
 
