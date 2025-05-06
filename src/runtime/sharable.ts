@@ -1,5 +1,5 @@
-// biome-ignore lint/style/useNodejsImportProtocol: <explanation>
-import { join } from "path";
+import { join } from "@/global/utils";
+
 
 export abstract class Sharable {
 	protected getFilename(filename: string): string {

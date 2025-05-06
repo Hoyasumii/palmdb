@@ -1,8 +1,4 @@
-Migration Ideia:
-Sempre que o diretório .palm for criado, ele vai serializar os dados dos schemas e sempre que o palm inicializar e os dados forem carregados.
-Caso ocorra algum erro durante a deserialização dos dados para a Entity, o palm irá comparar o schema do .palm com o inserido no construtor.
-Caso os dados não coicidam, irá aparecer uma mensagem de erro, a coleção será salva no backup no formato NAME_TIMESTAMP.csv.
-Para devolver os dados à coleção, você pode converter esse csv para um objeto convencional, mas você terá que fazer esse processo sozinho, sem auxílio do PalmDB. O PalmDB não serve para pessoas indecisas, que precisam ficar fazendo migrations a todo momento. Ele é pensado para o pior cenário. Se em seu desenvolvimento, os dados importarem no nível que eles não possam ser removidos, talvez o PalmDB não seja a ferramenta ideal para você.
+
 
 Collections -> Entities
 
@@ -11,8 +7,7 @@ Collections -> Entities
 
 Collection -> Schema -> Propperty
 
-```
-
+```ts
 // palm.config.ts
 await palm.start({
   logging: boolean,
@@ -89,9 +84,41 @@ await palm.start({
 // Uso do palm
 const usersCollection = await palm.pick("users");
 
+// await usersCollections.filter()
+
 await usersCollection.find.unique("id");
 
 // Como seria o enum:
 enum([]);
 
 ```
+
+.temp/palm/unique_keys/<COLLECTION>/<property>.jsonl
+.temp/palm/cache/specs.jsonl
+
+```
+
+```
+
+.temp/palm/cache/<GROUP_ALIAS>/config
+.temp/palm/cache/<GROUP_ALIAS>/config.jsonl
+.temp/palm/collections/<COLLECTION>/<ENTITY>.jsonl
+.temp/palm/collections/<COLLECTION>/group/<GROUPNAME>.jsonl
+
+Vai ter 2 diretórios:
+1. .palm -> database normal
+2. /tmp/.palm/* -> database que abstrai do .palm no intuito de memoizar resultados de processos, como locks e caches de grupos
+
+
+collection.create
+collection.find
+collection.update
+collection.remove
+
+collection.group.create(name, filter, refresh?: { days?: number, hours?: number, minutes?: number, seconds?: number  })
+collection.group.find(groupName)
+collection.group.update(groupName, data)
+collection.group.remove(groupName)
+
+
+<!-- TODO: Adicionar um sistema de backup pós término de processo -->

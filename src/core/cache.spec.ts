@@ -1,11 +1,15 @@
 import { describe } from "@/global/test";
-import { expect, it } from "vitest";
+import { beforeEach, expect, it } from "vitest";
 import { Cache } from "./cache";
 import { randomUUID } from "node:crypto";
 
-const sut = new Cache("account");
+let sut: Cache;
 
 await describe("Testing Sea Cache", () => {
+  beforeEach(() => {
+    sut = new Cache("account");
+  })
+
   it("Check if inexistent item exists", () => {
     expect(sut.exists("account/name/alan")).toBeFalsy();
   });

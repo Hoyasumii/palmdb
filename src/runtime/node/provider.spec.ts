@@ -15,7 +15,7 @@ await describe("Testing Node.js Provider", () => {
   });
 
   it("should write a new file", async () => {
-    await expect(sut.save("testing.txt", "hello world")).resolves.toBeDefined();
+    await expect(sut.save("testing.txt", Buffer.from("hello world"))).resolves.toBeDefined();
   });
 
   it("should get a file content", async () => {

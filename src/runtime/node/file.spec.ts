@@ -1,8 +1,8 @@
-import { afterAll, beforeEach, expect, it } from "vitest";
+import { beforeEach, expect, it } from "vitest";
 import { File } from "./file";
-import { join } from "node:path";
 import { rm } from "node:fs/promises";
 import { describe } from "@/global/test";
+import { join } from "@/global/utils";
 
 await describe("Testing Node.js File Provider", () => {
 	let sut: File;

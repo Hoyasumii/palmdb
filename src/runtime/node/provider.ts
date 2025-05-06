@@ -4,19 +4,21 @@ import { FS } from "./fs";
 import { PathNotFoundError } from "@/errors";
 
 export class Provider implements ProviderInterface {
-	public fs = new FS();
+  public fs = new FS();
 
-	async get(path: string) {
-		if (!(this.fs.exists(path))) throw new PathNotFoundError();
+  async get(path: string) {
+    if (!this.fs.exists(path)) throw new PathNotFoundError();
 
-		return await this.fs.file.read(path);
-	}
+    return await this.fs.file.read(path);
+  }
 
-	async save(path: string, data: string) {
-		return await this.fs.file.write(path, data);
-	}
+  async save(path: string, data: Buffer) {
+    const fs = new FS();
 
-	randomUUID(): string {
-		return randomUUID();
-	}
+    return await fs.file.write(path, data);
+  }
+
+  randomUUID(): string {
+    return randomUUID();
+  }
 }

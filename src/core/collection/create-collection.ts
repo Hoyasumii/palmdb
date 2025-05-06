@@ -7,6 +7,7 @@ import { CollectionUniquenessChecker } from "./collection-uniquess-checker";
 import type { CreateCollectionInterface } from "./types/create-collection-interface";
 import { EntityExistsError, EntityNotMatchWithSchemaError } from "@/errors";
 import { collectionCacheSetter } from "./collection-cache-setter";
+import { encode } from "msgpackr";
 
 export class CreateCollection<
   Keys extends string,
@@ -72,7 +73,7 @@ export class CreateCollection<
       id: itemId
     });
 
-    await this.repository.save();
+    await this.repository.save(itemId, encode(newEntity.value));
     global.palm.request.release();
 
     return itemId;

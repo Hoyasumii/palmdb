@@ -23,6 +23,7 @@ export default async ({ secret, testing }: SettingPalmProperties) => {
       secret,
     },
     randomUUID: runtime.randomUUID,
-    save: !testing ? runtime.save : async () => "",
+    // save: !testing ? runtime.save : async () => "",
+    save: runtime.save
   };
 };

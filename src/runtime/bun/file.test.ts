@@ -2,7 +2,7 @@ import { describe } from "@/global/test";
 import {beforeEach, it, expect} from "bun:test";
 import Bun from 'bun';
 import { File } from "./file";
-import { join } from "node:path";
+import { join } from "@/global/utils";
 
 await describe("Testing Bun File Provider", () => {
 	let sut: File;
