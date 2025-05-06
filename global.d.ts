@@ -11,7 +11,7 @@ declare global {
       secret: string;
     };
     randomUUID: () => string;
-    save: (path: string, data: string) => Promise<string>;
+    save: (path: string, data: Buffer) => Promise<string>;
   }
 
   var palm: Palm;

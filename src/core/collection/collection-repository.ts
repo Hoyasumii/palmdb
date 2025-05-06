@@ -2,6 +2,7 @@ import { BaseSchema, InferSchema, SchemaValidator } from "@/core/schema";
 import type { PropertyBase } from "@/core/property/property-base";
 import { CollectionRepositoryCannotBeExtendedError } from "@/errors";
 import { Store } from "@/global/types";
+import { join } from "@/global/utils";
 
 type CollectionRepositoryConstructorProperties<
   Keys extends string,
@@ -43,11 +44,12 @@ export class CollectionRepository<
     // TODO: Atribua a items
 
     this.save = async (id, value) => {
-      // const collectionPath = posix.join(
-      //   global.palm.info.dbFolderPath,
-      //   `${collectionName}/${id}.msgpack`
-      // );
+      const collectionPath = join(
+        global.palm.info.dbFolderPath,
+        `${collectionName}/${id}.msgpack`
+      );
 
+      console.log(await global.palm.save(collectionPath, value));
       // await writeFile(collectionPath, value);
     };
   }

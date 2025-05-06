@@ -39,8 +39,6 @@ export class CollectionUniquenessChecker<
         continue;
 
       if (this.propertyIsRepeated(key, value as string)) {
-        // console.log(global.palm.cache.get(`${this.collectionPath}/${key}/${value}`))
-        // console.log(id);
         if (global.palm.cache.get(`${this.collectionPath}/${key}/${value}`) !== id)
           returnValue = false;
       }

@@ -12,10 +12,10 @@ export class Provider implements ProviderInterface {
     return await this.fs.file.read(path);
   }
 
-  async save(path: string, data: string) {
+  async save(path: string, data: Buffer) {
+    const fs = new FS();
 
-
-    return await this.fs.file.write(path, data);
+    return await fs.file.write(path, data);
   }
 
   randomUUID(): string {

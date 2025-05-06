@@ -105,4 +105,20 @@ enum([]);
 .temp/palm/collections/<COLLECTION>/<ENTITY>.jsonl
 .temp/palm/collections/<COLLECTION>/group/<GROUPNAME>.jsonl
 
+Vai ter 2 diretórios:
+1. .palm -> database normal
+2. /tmp/.palm/* -> database que abstrai do .palm no intuito de memoizar resultados de processos, como locks e caches de grupos
+
+
+collection.create
+collection.find
+collection.update
+collection.remove
+
+collection.group.create(name, filter, refresh?: { days?: number, hours?: number, minutes?: number, seconds?: number  })
+collection.group.find(groupName)
+collection.group.update(groupName, data)
+collection.group.remove(groupName)
+
+
 <!-- TODO: Adicionar um sistema de backup pós término de processo -->
