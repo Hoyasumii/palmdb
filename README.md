@@ -1,4 +1,7 @@
+# O que é o PalmDB?
+- É um banco de dados não relacionado, que possui tipagem dinâmica, cache automático, e é preparado para os ambientes de servidor. 
 
+---
 
 Collections -> Entities
 
